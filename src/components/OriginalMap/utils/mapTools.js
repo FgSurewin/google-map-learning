@@ -3,6 +3,7 @@ export const defaultMapOptions = {
 		mapTypeIds: [],
 	},
 	zoomControl: false,
+	gestureHandling: "none",
 	fullscreenControl: false,
 	panControl: true,
 	// streetViewControl: false,

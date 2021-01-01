@@ -57,6 +57,7 @@ export function bindStreetViewEvents(street, events, map) {
 
 export const defaultStreetViewOptions = {
 	zoomControl: false,
+	scrollwheel: false,
 	fullscreenControl: false,
 	panControl: false,
 	linksControl: true,

@@ -26,9 +26,9 @@ const OriginalMap = ({
 	const [streetView, setStreetView] = React.useState(null);
 
 	React.useEffect(() => {
-		console.log("test effect function");
+		// console.log("test effect function");
 		if (streetView === null && map === null && googleMaps) {
-			console.log("Initialize......");
+			// console.log("Initialize......");
 			setMap(new googleMaps.Map(_map.current, combineMapOptions(mapOptions)));
 			setStreetView(
 				new googleMaps.StreetViewPanorama(
@@ -38,7 +38,7 @@ const OriginalMap = ({
 			);
 		}
 		if (streetView !== null && map !== null) {
-			console.log("Binding events....");
+			// console.log("Binding events....");
 			map.setStreetView(streetView);
 			bindStreetViewEvents(streetView, events, map);
 			markersInit(googleMaps, markers, map);
@@ -67,7 +67,17 @@ const OriginalMap = ({
 			>
 				{labels &&
 					labels.length > 0 &&
-					labels.map(({ id, style }) => <Label key={id} labelStyle={style} />)}
+					labels.map(({ id, color, position, display }) => (
+						<Label
+							key={id}
+							labelStyle={{
+								left: `${position.x}px`,
+								top: `${position.y}px`,
+								backgroundColor: color,
+								display,
+							}}
+						/>
+					))}
 				{labelMode && <div className="labelPanel"></div>}
 				<div id="streetView" ref={_streetView} />
 			</div>
