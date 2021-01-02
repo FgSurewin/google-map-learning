@@ -3,3 +3,39 @@ export const URL =
 
 export const WIDTH = 3584;
 export const RATIO = 800 / WIDTH;
+
+export const boxes = [
+	{
+		target: "door",
+		startPoint: {
+			x: 2077.0,
+			y: 13.0,
+		},
+		endPoint: {
+			x: 2794.0,
+			y: 1203.0,
+		},
+	},
+	{
+		target: "stairs",
+		startPoint: {
+			x: 1638.0,
+			y: 1114.0,
+		},
+		endPoint: {
+			x: 3478.0,
+			y: 1878.0,
+		},
+	},
+	{
+		target: "knob",
+		startPoint: {
+			x: 2378.0,
+			y: 829.0,
+		},
+		endPoint: {
+			x: 2483.0,
+			y: 944.0,
+		},
+	},
+];
