@@ -1,10 +1,12 @@
 import React from "react";
+import { getStyle, debounce } from "./utils";
 
 export default function LabelTool({ toggle, type, finish }) {
 	const [start, setStart] = React.useState(null);
 	const [end, setEnd] = React.useState(null);
 	const drawing = React.useRef(false);
 	const drawn = React.useRef(false);
+	const frameRef = React.useRef(null);
 
 	const handleClick = (e) => {
 		const xVal = e.nativeEvent.offsetX;
@@ -30,6 +32,7 @@ export default function LabelTool({ toggle, type, finish }) {
 	};
 	return (
 		<div
+			ref={frameRef}
 			style={{
 				position: "absolute",
 				top: 0,
@@ -45,14 +48,7 @@ export default function LabelTool({ toggle, type, finish }) {
 		>
 			{drawing.current && !drawn.current && start && end && (
 				<div
-					style={{
-						position: "absolute",
-						left: start.x,
-						top: start.y,
-						width: end.x || 1,
-						height: end.y || 1,
-						border: "2px solid green",
-					}}
+					style={debounce(getStyle, 300).call(start, end, frameRef.current)}
 				/>
 			)}
 		</div>
