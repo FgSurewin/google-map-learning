@@ -44,12 +44,10 @@ export default function LabelTool({ toggle, type, finish }) {
 				zIndex: 2,
 			}}
 			onClick={handleClick}
-			onMouseMove={handleMove}
+			onMouseMove={debounce(handleMove, 300)}
 		>
 			{drawing.current && !drawn.current && start && end && (
-				<div
-					style={debounce(getStyle, 300).call(start, end, frameRef.current)}
-				/>
+				<div style={getStyle(start, end, frameRef.current)} />
 			)}
 		</div>
 	);
