@@ -26,6 +26,7 @@ export const boxes = [
 			x: 3478.0,
 			y: 1878.0,
 		},
+		display: "none",
 	},
 	{
 		target: "knob",

@@ -1,5 +1,5 @@
 import React from "react";
-import { getStyle, debounce } from "./utils";
+import { resizeBy } from "./utils";
 
 export default function LabelTool({ toggle, type, finish }) {
 	const [start, setStart] = React.useState(null);
@@ -9,8 +9,8 @@ export default function LabelTool({ toggle, type, finish }) {
 	const frameRef = React.useRef(null);
 
 	const handleClick = (e) => {
-		const xVal = e.nativeEvent.offsetX;
-		const yVal = e.nativeEvent.offsetY;
+		const xVal = e.pageX - frameRef.current.getBoundingClientRect().left;
+		const yVal = e.pageY - frameRef.current.getBoundingClientRect().top;
 		if (!drawing.current && !drawn.current) {
 			console.log("Drawing -> ", xVal, ", ", yVal);
 			setStart({ x: xVal, y: yVal });
@@ -22,9 +22,29 @@ export default function LabelTool({ toggle, type, finish }) {
 		}
 	};
 
+	// const handleDown = (e) => {
+	// 	const xVal = e.nativeEvent.offsetX;
+	// 	const yVal = e.nativeEvent.offsetY;
+	// 	if (!drawing.current && !drawn.current) {
+	// 		console.log("Drawing -> ", xVal, ", ", yVal);
+	// 		setStart({ x: xVal, y: yVal });
+	// 		drawing.current = true;
+	// 	}
+	// };
+
+	// const handleUp = (e) => {
+	// 	const xVal = e.nativeEvent.offsetX;
+	// 	const yVal = e.nativeEvent.offsetY;
+	// 	if (drawing.current && !drawn.current) {
+	// 		console.log("Drawn -> ", xVal, ", ", yVal);
+	// 		drawing.current = false;
+	// 		drawn.current = true;
+	// 	}
+	// };
+
 	const handleMove = (e) => {
-		const xVal = e.nativeEvent.offsetX;
-		const yVal = e.nativeEvent.offsetY;
+		const xVal = e.pageX - frameRef.current.getBoundingClientRect().left;
+		const yVal = e.pageY - frameRef.current.getBoundingClientRect().top;
 		if (drawing.current && !drawn.current) {
 			console.log("Move -> ", xVal, ", ", yVal);
 			setEnd({ x: xVal, y: yVal });
@@ -44,10 +64,12 @@ export default function LabelTool({ toggle, type, finish }) {
 				zIndex: 2,
 			}}
 			onClick={handleClick}
-			onMouseMove={debounce(handleMove, 300)}
+			// onMouseDown={handleDown}
+			// onMouseUp={handleUp}
+			onMouseMove={handleMove}
 		>
 			{drawing.current && !drawn.current && start && end && (
-				<div style={getStyle(start, end, frameRef.current)} />
+				<div style={resizeBy(start, end)} draggable />
 			)}
 		</div>
 	);
