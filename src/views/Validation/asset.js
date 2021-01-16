@@ -6,6 +6,7 @@ export const RATIO = 800 / WIDTH;
 
 export const boxes = [
 	{
+		id: "one",
 		target: "door",
 		startPoint: {
 			x: 2077.0,
@@ -17,6 +18,7 @@ export const boxes = [
 		},
 	},
 	{
+		id: "two",
 		target: "stairs",
 		startPoint: {
 			x: 1638.0,
@@ -29,6 +31,7 @@ export const boxes = [
 		display: "none",
 	},
 	{
+		id: "three",
 		target: "knob",
 		startPoint: {
 			x: 2378.0,

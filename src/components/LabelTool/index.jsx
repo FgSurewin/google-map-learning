@@ -1,5 +1,6 @@
 import React from "react";
-import { resizeBy } from "./utils";
+import { getColor } from "../Box/utils";
+import { rearrangePoints, resizeBy } from "./utils";
 
 export default function LabelTool({ toggle, type, finish }) {
 	const [start, setStart] = React.useState(null);
@@ -8,17 +9,25 @@ export default function LabelTool({ toggle, type, finish }) {
 	const drawn = React.useRef(false);
 	const frameRef = React.useRef(null);
 
+	const clear = () => {
+		setStart(null);
+		setEnd(null);
+	};
+
 	const handleClick = (e) => {
 		const xVal = e.pageX - frameRef.current.getBoundingClientRect().left;
 		const yVal = e.pageY - frameRef.current.getBoundingClientRect().top;
-		if (!drawing.current && !drawn.current) {
+		if (toggle && !drawing.current && !drawn.current) {
 			console.log("Drawing -> ", xVal, ", ", yVal);
 			setStart({ x: xVal, y: yVal });
 			drawing.current = true;
-		} else if (drawing.current && !drawn.current) {
+		} else if (toggle && drawing.current && !drawn.current) {
 			console.log("Drawn -> ", xVal, ", ", yVal);
 			drawing.current = false;
-			drawn.current = true;
+			drawn.current = false;
+			const { newStart, newEnd } = rearrangePoints(start, end);
+			finish(newStart, newEnd, type);
+			clear();
 		}
 	};
 
@@ -46,7 +55,7 @@ export default function LabelTool({ toggle, type, finish }) {
 		const xVal = e.pageX - frameRef.current.getBoundingClientRect().left;
 		const yVal = e.pageY - frameRef.current.getBoundingClientRect().top;
 		if (drawing.current && !drawn.current) {
-			console.log("Move -> ", xVal, ", ", yVal);
+			// console.log("Move -> ", xVal, ", ", yVal);
 			setEnd({ x: xVal, y: yVal });
 		}
 	};
@@ -62,6 +71,7 @@ export default function LabelTool({ toggle, type, finish }) {
 				width: "100%",
 				height: "100%",
 				zIndex: 2,
+				border: toggle ? `4px solid ${getColor(type)}` : null,
 			}}
 			onClick={handleClick}
 			// onMouseDown={handleDown}
@@ -69,7 +79,7 @@ export default function LabelTool({ toggle, type, finish }) {
 			onMouseMove={handleMove}
 		>
 			{drawing.current && !drawn.current && start && end && (
-				<div style={resizeBy(start, end)} draggable />
+				<div style={resizeBy(start, end, type)} draggable />
 			)}
 		</div>
 	);

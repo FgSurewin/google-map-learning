@@ -11,19 +11,19 @@ import {
 
 const mapOptions = {
 	center: {
-		lat: 40.7541,
-		lng: -73.99208,
+		lat: 40.701116,
+		lng: -73.957748,
 	},
 	zoom: 18,
 };
 
 const streetViewOptions = {
 	position: {
-		lat: 40.7541,
-		lng: -73.99208,
+		lat: 40.701116,
+		lng: -73.957748,
 	},
 	pov: {
-		heading: 0,
+		heading: 60,
 		pitch: 0,
 	},
 };
@@ -67,7 +67,7 @@ const StreetView = () => {
 	const replaceLabelsWithDebounce = debounce(replaceLabels, 400);
 	const onPovChanged = (e) => {
 		locationInfo.current = e;
-		// console.log("POV -> Info: ", locationInfo.current);
+		console.log("POV -> Info: ", locationInfo.current);
 		// console.log("测试");
 		replaceLabelsWithDebounce();
 	};
