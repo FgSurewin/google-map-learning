@@ -6,15 +6,16 @@ import { v4 as uuidV4 } from "uuid";
 import { Target } from "../../components/Box/utils";
 
 export default function Validation() {
-	const [box, setBox] = React.useState(boxes);
+	const [box, setBox] = React.useState(() => boxes);
 	const [type, setType] = React.useState(null);
 	const [toggle, setToggle] = React.useState(false);
+
 	const finish = (start, end, target) => {
-		console.log("FINISH -> ", box);
 		setBox([
 			...box,
 			{
 				id: uuidV4(),
+				isClick: false,
 				target,
 				startPoint: start,
 				endPoint: end,
@@ -28,6 +29,30 @@ export default function Validation() {
 		setToggle(true);
 	};
 
+	const clearClick = () => {
+		setBox((c) =>
+			c.map((item) => {
+				item.isClick = false;
+				return item;
+			})
+		);
+	};
+
+	const BoxClick = (id) => () => {
+		clearClick();
+		setBox((c) =>
+			c.map((item) => {
+				if (item.id === id) {
+					item.isClick = true;
+				}
+				return item;
+			})
+		);
+	};
+
+	const BoxDelete = (id) => () => {
+		setBox((c) => c.filter((item) => item.id !== id));
+	};
 	return (
 		<div>
 			<h1>Validation</h1>
@@ -47,15 +72,23 @@ export default function Validation() {
 			>
 				{box &&
 					box.length > 0 &&
-					box.map(({ id, startPoint, endPoint, target }) => (
+					box.map(({ id, startPoint, endPoint, target, isClick }) => (
 						<Box
 							key={id}
 							startPoint={startPoint}
 							endPoint={endPoint}
 							target={target}
+							BoxClick={BoxClick(id)}
+							BoxDelete={BoxDelete(id)}
+							isClick={isClick}
 						/>
 					))}
-				<LabelTool finish={finish} type={type} toggle={toggle} />
+				<LabelTool
+					finish={finish}
+					type={type}
+					toggle={toggle}
+					clearClick={clearClick}
+				/>
 				<img
 					src={URL}
 					alt="label"

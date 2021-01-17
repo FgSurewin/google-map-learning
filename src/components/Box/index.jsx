@@ -3,7 +3,14 @@ import "./style.scss";
 import { RATIO } from "../../views/Validation/asset";
 import { Target, getColor } from "./utils";
 
-export default function Box({ startPoint, endPoint, target }) {
+export default function Box({
+	startPoint,
+	endPoint,
+	target,
+	isClick,
+	BoxClick,
+	BoxDelete,
+}) {
 	const promptClass = target === Target.KNOB ? "prompt top" : "prompt middle";
 
 	return (
@@ -18,8 +25,14 @@ export default function Box({ startPoint, endPoint, target }) {
 				border: `4px solid ${getColor(target)}`,
 				zIndex: target === Target.KNOB ? 10 : 5,
 			}}
+			onClick={BoxClick}
 		>
 			<h3 className={promptClass}>{target}</h3>
+			{isClick && (
+				<button className="delete" onClick={BoxDelete}>
+					X
+				</button>
+			)}
 		</div>
 	);
 }

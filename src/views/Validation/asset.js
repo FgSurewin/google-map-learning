@@ -8,6 +8,7 @@ export const boxes = [
 	{
 		id: "one",
 		target: "door",
+		isClick: false,
 		startPoint: {
 			x: 2077.0,
 			y: 13.0,
@@ -20,6 +21,7 @@ export const boxes = [
 	{
 		id: "two",
 		target: "stairs",
+		isClick: false,
 		startPoint: {
 			x: 1638.0,
 			y: 1114.0,
@@ -28,11 +30,11 @@ export const boxes = [
 			x: 3478.0,
 			y: 1878.0,
 		},
-		display: "none",
 	},
 	{
 		id: "three",
 		target: "knob",
+		isClick: false,
 		startPoint: {
 			x: 2378.0,
 			y: 829.0,

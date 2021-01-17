@@ -2,7 +2,7 @@ import React from "react";
 import { getColor } from "../Box/utils";
 import { rearrangePoints, resizeBy } from "./utils";
 
-export default function LabelTool({ toggle, type, finish }) {
+export default function LabelTool({ toggle, type, finish, clearClick }) {
 	const [start, setStart] = React.useState(null);
 	const [end, setEnd] = React.useState(null);
 	const drawing = React.useRef(false);
@@ -17,12 +17,13 @@ export default function LabelTool({ toggle, type, finish }) {
 	const handleClick = (e) => {
 		const xVal = e.pageX - frameRef.current.getBoundingClientRect().left;
 		const yVal = e.pageY - frameRef.current.getBoundingClientRect().top;
+		clearClick();
 		if (toggle && !drawing.current && !drawn.current) {
-			console.log("Drawing -> ", xVal, ", ", yVal);
+			// console.log("Drawing -> ", xVal, ", ", yVal);
 			setStart({ x: xVal, y: yVal });
 			drawing.current = true;
 		} else if (toggle && drawing.current && !drawn.current) {
-			console.log("Drawn -> ", xVal, ", ", yVal);
+			// console.log("Drawn -> ", xVal, ", ", yVal);
 			drawing.current = false;
 			drawn.current = false;
 			const { newStart, newEnd } = rearrangePoints(start, end);

@@ -14,12 +14,25 @@
 		position: absolute;
 		left: 50%;
 		top: 50%;
-		transform: translate(-50%, -100%);
+		transform: translate(-50%, -200%);
 	}
 	&:hover {
 		background-color: rgba($color: grey, $alpha: 0.6);
 		.prompt {
 			display: block;
 		}
+	}
+	.delete {
+		position: absolute;
+		color: #fff;
+		left: 50%;
+		top: 0%;
+		transform: translate(-50%, -50%);
+		z-index: 11;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		border-radius: 50%;
+		background-color: rgba(0, 0, 0, 0.6);
 	}
 }
