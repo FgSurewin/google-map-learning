@@ -5,10 +5,31 @@ import { URL, boxes } from "./asset";
 import { v4 as uuidV4 } from "uuid";
 import { Target } from "../../components/Box/utils";
 
+import { useQuery, gql } from "@apollo/client";
+
+const TEST = gql`
+	query getAllImages {
+		getAllImages {
+			image_id
+			pano
+			create_at
+			image_size
+			url
+		}
+	}
+`;
 export default function Validation() {
 	const [box, setBox] = React.useState(() => boxes);
 	const [type, setType] = React.useState(null);
 	const [toggle, setToggle] = React.useState(false);
+	const { loading, error, data } = useQuery(TEST);
+
+	React.useEffect(() => {
+		console.log("TEST: ", data);
+	}, [data]);
+
+	if (loading) return <p>Loading...</p>;
+	if (error) return <p>Error :(</p>;
 
 	const finish = (start, end, target) => {
 		setBox([

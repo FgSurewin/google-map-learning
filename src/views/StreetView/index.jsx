@@ -56,10 +56,10 @@ const StreetView = () => {
 			size.current !== 0 &&
 			!isEqual(labels[0].pov, locationInfo.current.pov)
 		) {
-			console.log("不相等");
+			// console.log("不相等");
 			const result = resetLabels(labels, locationInfo.current);
 			if (result) {
-				console.log("重新设置");
+				// console.log("重新设置");
 				setLabels(result);
 			}
 		}
@@ -82,9 +82,9 @@ const StreetView = () => {
 		// console.log("test -> ", labels);
 		locationInfo.current = e;
 		map.setCenter(locationInfo.current.position);
-		console.log("Position -> Info: ", locationInfo.current);
+		// console.log("Position -> Info: ", locationInfo.current);
 	};
-	console.log("FATHER: ", labels);
+	// console.log("FATHER: ", labels);
 	const handleStreetViewClick = (e) => {
 		if (labelMode) {
 			setLabels([
