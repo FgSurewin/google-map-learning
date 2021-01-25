@@ -18,6 +18,7 @@ export default function LabelTool({ toggle, type, finish, clearClick }) {
 		const xVal = e.pageX - frameRef.current.getBoundingClientRect().left;
 		const yVal = e.pageY - frameRef.current.getBoundingClientRect().top;
 		clearClick();
+		console.log("TEST");
 		if (toggle && !drawing.current && !drawn.current) {
 			// console.log("Drawing -> ", xVal, ", ", yVal);
 			setStart({ x: xVal, y: yVal });
@@ -71,7 +72,7 @@ export default function LabelTool({ toggle, type, finish, clearClick }) {
 				right: 0,
 				width: "100%",
 				height: "100%",
-				zIndex: 2,
+				zIndex: toggle ? 20 : 2,
 				border: toggle ? `4px solid ${getColor(type)}` : null,
 			}}
 			onClick={handleClick}

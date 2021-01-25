@@ -3,11 +3,6 @@ import StreetView from "./views/StreetView";
 import { Route, NavLink as Link, Switch, Redirect } from "react-router-dom";
 import Validation from "./views/Validation";
 
-// const center = {
-// 	lat: 40.7541,
-// 	lng: -73.99208,
-// };
-
 function App() {
 	return (
 		<div

@@ -16,3 +16,26 @@ export function isEqual(pre, next) {
 	});
 	return result;
 }
+
+export function generateMapOption(lat, lng) {
+	return {
+		center: {
+			lat,
+			lng,
+		},
+		zoom: 18,
+	};
+}
+
+export function generateStreetOption(lat, lng) {
+	return {
+		position: {
+			lat,
+			lng,
+		},
+		pov: {
+			heading: 230,
+			pitch: 0,
+		},
+	};
+}

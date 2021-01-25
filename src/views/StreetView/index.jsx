@@ -8,6 +8,8 @@ import {
 	// display,
 	resetLabels,
 } from "./utils/labelTools";
+import { useQuery } from "@apollo/client";
+import { QUERY_RANDOM_IMAGE_LIST } from "../../graphql/image/query";
 
 const mapOptions = {
 	center: {
@@ -19,11 +21,11 @@ const mapOptions = {
 
 const streetViewOptions = {
 	position: {
-		lat: 40.701116,
-		lng: -73.957748,
+		lat: 40.734452,
+		lng: -73.958344,
 	},
 	pov: {
-		heading: 60,
+		heading: 230,
 		pitch: 0,
 	},
 };
@@ -48,6 +50,13 @@ const StreetView = () => {
 	const [markers, setMarkers] = React.useState([]);
 	const locationInfo = React.useRef(defaultInfo);
 	const size = React.useRef(0);
+
+	// const { loading, error, data } = useQuery(GET_DOGS);
+	useQuery(QUERY_RANDOM_IMAGE_LIST, {
+		onCompleted: function (data) {
+			console.log(data);
+		},
+	});
 
 	const replaceLabels = () => {
 		// console.log("测试", locationInfo.current);
@@ -124,6 +133,7 @@ const StreetView = () => {
 					setLabelColor(colors.success);
 					setLabelMode(true);
 				}}
+				disabled
 			>
 				Add Point
 			</button>
@@ -134,9 +144,11 @@ const StreetView = () => {
 						? setLabelColor(colors.success)
 						: setLabelColor(colors.default);
 				}}
+				disabled
 			>
 				Change Mode
 			</button>
+			<button>NEXT</button>
 			<OriginalMap
 				api={process.env.REACT_APP_API_KEY}
 				mainStyle={generateBorderStyle(labelColor)}

@@ -5,12 +5,18 @@ import { URL, boxes } from "./asset";
 import { v4 as uuidV4 } from "uuid";
 import { Target } from "../../components/Box/utils";
 
-import { useQuery, gql } from "@apollo/client";
+// import { useQuery, gql } from "@apollo/client";
 
 export default function Validation() {
 	const [box, setBox] = React.useState(() => boxes);
 	const [type, setType] = React.useState(null);
 	const [toggle, setToggle] = React.useState(false);
+
+	React.useEffect(() => {
+		return () => {
+			console.log("close pages");
+		};
+	}, []);
 
 	const finish = (start, end, target) => {
 		setBox([
