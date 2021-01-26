@@ -10,6 +10,8 @@ import {
 	ApolloProvider,
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const errorLink = onError(({ graphqlErrors }) => {
 	if (graphqlErrors) {
@@ -31,10 +33,12 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-	<Router>
-		<ApolloProvider client={client}>
-			<App />
-		</ApolloProvider>
-	</Router>,
+	<Provider store={store}>
+		<Router>
+			<ApolloProvider client={client}>
+				<App />
+			</ApolloProvider>
+		</Router>
+	</Provider>,
 	document.getElementById("root")
 );

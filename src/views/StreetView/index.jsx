@@ -1,34 +1,41 @@
 import React from "react";
 import OriginalMap from "../../components/OriginalMap";
 import { v4 as uuidV4 } from "uuid";
-import { debounce, isEqual } from "./utils";
+import {
+	debounce,
+	generateMapOption,
+	generateStreetOption,
+	isEqual,
+} from "./utils";
 import {
 	generateBorderStyle,
 	colors,
 	// display,
 	resetLabels,
 } from "./utils/labelTools";
-import { useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { QUERY_RANDOM_IMAGE_LIST } from "../../graphql/image/query";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { HANDLE_MAP } from "../../redux/actionTypes";
 
-const mapOptions = {
-	center: {
-		lat: 40.701116,
-		lng: -73.957748,
-	},
-	zoom: 18,
-};
+// const mapOptions = {
+// 	center: {
+// 		lat: 40.701116,
+// 		lng: -73.957748,
+// 	},
+// 	zoom: 18,
+// };
 
-const streetViewOptions = {
-	position: {
-		lat: 40.734452,
-		lng: -73.958344,
-	},
-	pov: {
-		heading: 230,
-		pitch: 0,
-	},
-};
+// const streetViewOptions = {
+// 	position: {
+// 		lat: 40.701116,
+// 		lng: -73.957748,
+// 	},
+// 	pov: {
+// 		heading: 230,
+// 		pitch: 0,
+// 	},
+// };
 
 const defaultInfo = {
 	pano: "",
@@ -48,18 +55,42 @@ const StreetView = () => {
 	const [labelMode, setLabelMode] = React.useState(false);
 	const [labels, setLabels] = React.useState([]);
 	const [markers, setMarkers] = React.useState([]);
+	// const [next, setNext] = React.useState(true);
 	const locationInfo = React.useRef(defaultInfo);
 	const size = React.useRef(0);
+	const _mount = React.useRef(false);
+
+	// Redux
+	const { pano, position } = useSelector((state) => state.map, shallowEqual);
+	const _next = React.useRef(pano ? true : false);
+	const dispatch = useDispatch();
 
 	// const { loading, error, data } = useQuery(GET_DOGS);
-	useQuery(QUERY_RANDOM_IMAGE_LIST, {
-		onCompleted: function (data) {
-			console.log(data);
-		},
+	// const { data, refetch, loading } = useQuery(QUERY_RANDOM_IMAGE_LIST, {
+	// 	fetchPolicy: "no-cache",
+	// });
+	const [loadData, { data }] = useLazyQuery(QUERY_RANDOM_IMAGE_LIST, {
+		fetchPolicy: "no-cache",
 	});
 
+	React.useEffect(() => {
+		console.log("data ->", data);
+		if (!data && !_mount.current) {
+			console.log("Load data...");
+			_mount.current = true;
+			loadData();
+		}
+		if (data && !_next.current) {
+			console.log("Set Data");
+			// dispatch({ type: HANDLE_PANO, payload: null })
+			dispatch({ type: HANDLE_MAP, payload: data.getRandomImageList });
+			_next.current = true;
+			// setNext(false);
+		}
+		// setNext(false);
+	}, [data, dispatch, loadData]);
+
 	const replaceLabels = () => {
-		// console.log("测试", locationInfo.current);
 		if (
 			labels.length === size.current &&
 			size.current !== 0 &&
@@ -88,7 +119,7 @@ const StreetView = () => {
 	};
 
 	const onPositionChanged = (e, map) => {
-		// console.log("test -> ", labels);
+		// console.log("Position -> ", e);
 		locationInfo.current = e;
 		map.setCenter(locationInfo.current.position);
 		// console.log("Position -> Info: ", locationInfo.current);
@@ -126,6 +157,9 @@ const StreetView = () => {
 			setLabelColor(colors.default);
 		}
 	};
+
+	// if (loading) return <div>loading....</div>;
+	// if (next) return <div>MyLoading....</div>;
 	return (
 		<div>
 			<button
@@ -144,26 +178,39 @@ const StreetView = () => {
 						? setLabelColor(colors.success)
 						: setLabelColor(colors.default);
 				}}
-				disabled
 			>
 				Change Mode
 			</button>
-			<button>NEXT</button>
-			<OriginalMap
-				api={process.env.REACT_APP_API_KEY}
-				mainStyle={generateBorderStyle(labelColor)}
-				streetViewOptions={streetViewOptions}
-				mapOptions={mapOptions}
-				events={{
-					onPovChanged,
-					onZoomChanged,
-					onPositionChanged,
+			<button
+				onClick={() => {
+					console.log("--------NEXT BUTTON-----------");
+					loadData();
+					_next.current = false;
+					// setNext(!next)
+					// props.history.push("/test");
 				}}
-				markers={markers}
-				labels={labels}
-				labelMode={labelMode}
-				handleStreetViewClick={handleStreetViewClick}
-			/>
+			>
+				NEXT
+			</button>
+			{pano && (
+				<OriginalMap
+					api={process.env.REACT_APP_API_KEY}
+					mainStyle={generateBorderStyle(labelColor)}
+					streetViewOptions={generateStreetOption(position.lat, position.lng)}
+					// streetViewOptions={streetViewOptions}
+					mapOptions={generateMapOption(position.lat, position.lng)}
+					// mapOptions={mapOptions}
+					events={{
+						onPovChanged,
+						onZoomChanged,
+						onPositionChanged,
+					}}
+					markers={markers}
+					labels={labels}
+					labelMode={labelMode}
+					handleStreetViewClick={handleStreetViewClick}
+				/>
+			)}
 		</div>
 	);
 };

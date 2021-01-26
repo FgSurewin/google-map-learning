@@ -7,6 +7,7 @@ import {
 	bindStreetViewEvents,
 	combineStreetViewOptions,
 } from "./utils/streetViewTools";
+import { isEqual } from "lodash";
 import "./styles/style.scss";
 
 const OriginalMap = ({
@@ -22,13 +23,17 @@ const OriginalMap = ({
 }) => {
 	const _map = React.useRef();
 	const _streetView = React.useRef();
+	const _mapOptions = React.useRef();
+	const _streetViewOptions = React.useRef();
 	const [map, setMap] = React.useState(null);
 	const [streetView, setStreetView] = React.useState(null);
 
 	React.useEffect(() => {
-		// console.log("test effect function");
+		// console.log("test googleMaps -> ", googleMaps);
 		if (streetView === null && map === null && googleMaps) {
 			// console.log("Initialize......");
+			_mapOptions.current = mapOptions;
+			_streetViewOptions.current = streetViewOptions;
 			setMap(new googleMaps.Map(_map.current, combineMapOptions(mapOptions)));
 			setStreetView(
 				new googleMaps.StreetViewPanorama(
@@ -37,11 +42,34 @@ const OriginalMap = ({
 				)
 			);
 		}
-		if (streetView !== null && map !== null) {
+		if (
+			streetView !== null &&
+			map !== null &&
+			isEqual(_mapOptions.current, mapOptions) &&
+			isEqual(_streetViewOptions.current, streetViewOptions)
+		) {
 			// console.log("Binding events....");
 			map.setStreetView(streetView);
 			bindStreetViewEvents(streetView, events, map);
 			markersInit(googleMaps, markers, map);
+		}
+
+		if (
+			streetView !== null &&
+			map !== null &&
+			!isEqual(_mapOptions.current, mapOptions) &&
+			!isEqual(_streetViewOptions.current, streetViewOptions)
+		) {
+			// console.log("Initialize Again......");
+			_mapOptions.current = mapOptions;
+			_streetViewOptions.current = streetViewOptions;
+			setMap(new googleMaps.Map(_map.current, combineMapOptions(mapOptions)));
+			setStreetView(
+				new googleMaps.StreetViewPanorama(
+					_streetView.current,
+					combineStreetViewOptions(streetViewOptions)
+				)
+			);
 		}
 		return () => {
 			if (map) {

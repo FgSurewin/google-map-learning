@@ -13,7 +13,7 @@ export const QUERY_ALL_IMAGES = gql`
 `;
 
 export const QUERY_RANDOM_IMAGE_LIST = gql`
-	query getRandomImageList {
+	query {
 		getRandomImageList {
 			id
 			name

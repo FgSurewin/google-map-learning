@@ -11,6 +11,7 @@ export function bindStreetViewEvents(street, events, map) {
 	});
 
 	street.addListener("position_changed", () => {
+		// console.log("Origin -> ", street.getPano());
 		if (events.onPositionChanged) {
 			const result = generateInfo(
 				street.getPano(),
