@@ -16,7 +16,7 @@ import {
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_RANDOM_IMAGE_LIST } from "../../graphql/image/query";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { HANDLE_MAP } from "../../redux/actionTypes";
+import { HANDLE_MAP, SAVE_MAP_LIST } from "../../redux/actionTypes";
 
 // const mapOptions = {
 // 	center: {
@@ -49,7 +49,7 @@ const defaultInfo = {
 		zoom: 1,
 	},
 };
-
+let count = 0;
 const StreetView = () => {
 	const [labelColor, setLabelColor] = React.useState(colors.default);
 	const [labelMode, setLabelMode] = React.useState(false);
@@ -61,7 +61,10 @@ const StreetView = () => {
 	const _mount = React.useRef(false);
 
 	// Redux
-	const { pano, position } = useSelector((state) => state.map, shallowEqual);
+	const { pano, position, images } = useSelector(
+		(state) => state.map,
+		shallowEqual
+	);
 	const _next = React.useRef(pano ? true : false);
 	const dispatch = useDispatch();
 
@@ -72,10 +75,12 @@ const StreetView = () => {
 	const [loadData, { data }] = useLazyQuery(QUERY_RANDOM_IMAGE_LIST, {
 		fetchPolicy: "no-cache",
 	});
-
+	console.log("Global!!!!!! -> ", count++);
 	React.useEffect(() => {
 		console.log("data ->", data);
-		if (!data && !_mount.current) {
+		console.log("pano -> ", pano);
+		console.log("images -> ", images);
+		if (!pano && !data && !_mount.current) {
 			console.log("Load data...");
 			_mount.current = true;
 			loadData();
@@ -83,12 +88,13 @@ const StreetView = () => {
 		if (data && !_next.current) {
 			console.log("Set Data");
 			// dispatch({ type: HANDLE_PANO, payload: null })
+			dispatch({ type: SAVE_MAP_LIST, payload: data.getRandomImageList });
 			dispatch({ type: HANDLE_MAP, payload: data.getRandomImageList });
 			_next.current = true;
 			// setNext(false);
 		}
 		// setNext(false);
-	}, [data, dispatch, loadData]);
+	}, [data, pano, images, dispatch, loadData]);
 
 	const replaceLabels = () => {
 		if (
@@ -107,7 +113,7 @@ const StreetView = () => {
 	const replaceLabelsWithDebounce = debounce(replaceLabels, 400);
 	const onPovChanged = (e) => {
 		locationInfo.current = e;
-		console.log("POV -> Info: ", locationInfo.current);
+		// console.log("POV -> Info: ", locationInfo.current);
 		// console.log("测试");
 		replaceLabelsWithDebounce();
 	};
@@ -119,7 +125,7 @@ const StreetView = () => {
 	};
 
 	const onPositionChanged = (e, map) => {
-		// console.log("Position -> ", e);
+		console.log("Position -> ", e);
 		locationInfo.current = e;
 		map.setCenter(locationInfo.current.position);
 		// console.log("Position -> Info: ", locationInfo.current);
@@ -192,7 +198,7 @@ const StreetView = () => {
 			>
 				NEXT
 			</button>
-			{pano && (
+			{
 				<OriginalMap
 					api={process.env.REACT_APP_API_KEY}
 					mainStyle={generateBorderStyle(labelColor)}
@@ -210,7 +216,7 @@ const StreetView = () => {
 					labelMode={labelMode}
 					handleStreetViewClick={handleStreetViewClick}
 				/>
-			)}
+			}
 		</div>
 	);
 };

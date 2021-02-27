@@ -1,4 +1,4 @@
-import { HANDLE_MAP, HANDLE_PANO } from "../actionTypes";
+import { HANDLE_MAP, HANDLE_PANO, SAVE_MAP_LIST } from "../actionTypes";
 
 const initialState = {
 	pano: null,
@@ -11,6 +11,12 @@ const initialState = {
 
 function mapReducer(state = initialState, action) {
 	switch (action.type) {
+		case SAVE_MAP_LIST:
+			const mapList = action.payload;
+			return {
+				...state,
+				images: [...mapList],
+			};
 		case HANDLE_MAP:
 			const list = action.payload;
 			return {

@@ -30,6 +30,7 @@ const OriginalMap = ({
 
 	React.useEffect(() => {
 		// console.log("test googleMaps -> ", googleMaps);
+		// First initialization
 		if (streetView === null && map === null && googleMaps) {
 			// console.log("Initialize......");
 			_mapOptions.current = mapOptions;
@@ -42,6 +43,8 @@ const OriginalMap = ({
 				)
 			);
 		}
+
+		// Binding events
 		if (
 			streetView !== null &&
 			map !== null &&
@@ -54,6 +57,7 @@ const OriginalMap = ({
 			markersInit(googleMaps, markers, map);
 		}
 
+		// Update street view
 		if (
 			streetView !== null &&
 			map !== null &&
