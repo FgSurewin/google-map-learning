@@ -2,29 +2,46 @@ import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import imageRoute from "./routes/image";
+import mongoose from "mongoose";
+import cors from "cors";
 import { logger, loggerMiddleware } from "./config/logger";
+import { config } from "./database";
 
-const app = express();
+(async function () {
+	const app = express();
 
-// Initialize Middleware
-dotenv.config();
-app.use(loggerMiddleware);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+	// Initialize Middleware
+	dotenv.config();
+	// app.use(cors());
+	app.use(loggerMiddleware);
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({ extended: false }));
 
-// Initialize Routes
-app.use("/image", imageRoute);
+	// Initialize Routes
+	app.use("/api/image", imageRoute);
 
-// Handle Error
-app.use(async (req, res, next) => {
-	const error = new Error("NOT FOUND");
+	// MongoDB Connection
+	try {
+		await mongoose.connect(config.link, config.options);
+		logger("DATABASE", "Connect to the MongoDB successfully!");
+	} catch (error) {
+		console.log(new Error(error));
+	}
 
-	return res.status(404).json({
-		code: 404,
-		message: error.message,
+	// Handle Error
+	app.use(async (req, res, next) => {
+		const error = new Error("NOT FOUND");
+
+		return res.status(404).json({
+			code: 404,
+			message: error.message,
+		});
 	});
-});
 
-app.listen(parseInt(process.env.PORT!), () =>
-	logger("SERVER", `Server is running on http://localhost:${process.env.PORT}`)
-);
+	app.listen(parseInt(process.env.PORT!), () =>
+		logger(
+			"SERVER",
+			`Server is running on http://localhost:${process.env.PORT}`
+		)
+	);
+})();

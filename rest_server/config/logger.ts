@@ -1,4 +1,9 @@
 import { Request, Response, NextFunction } from "express";
+import chalk from "chalk";
+
+export const Red = chalk.bold.red;
+export const Green = chalk.bold.green;
+export const Yellow = chalk.bold.yellow;
 
 const getTimeStamp = (): string => new Date().toISOString();
 
@@ -18,13 +23,17 @@ export const loggerMiddleware = async (
 ) => {
 	logger(
 		NAMESPACE,
-		`[START] METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}]`
+		`[${Green("START")}] METHOD - [${req.method}], URL - [${req.url}], IP - [${
+			req.socket.remoteAddress
+		}]`
 	);
 
 	res.on("finish", () => {
 		logger(
 			NAMESPACE,
-			`[END] METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}], STATUS - [${res.statusCode}]`
+			`[${Yellow("END")}] METHOD - [${req.method}], URL - [${req.url}], IP - [${
+				req.socket.remoteAddress
+			}], STATUS - [${res.statusCode}]`
 		);
 	});
 
