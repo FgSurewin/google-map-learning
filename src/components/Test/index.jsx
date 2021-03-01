@@ -13,15 +13,29 @@ export default function Test() {
 	// 	},
 	// });
 	React.useEffect(() => {
-		async function fetchData() {
-			try {
-				const result = await axios.get("/api/image/getAll");
-				console.log("result -> ", result);
-			} catch (e) {
-				console.log(new Error(e).message);
-			}
-		}
-		fetchData();
+		// async function fetchData() {
+		// 	try {
+		// 		const { data } = await axios.get("/api/image/getAll");
+		// 		const { _id, labeled_area } = data.data[0];
+		// 		const result = await axios.request({
+		// 			url: "/api/image/addLabelArea",
+		// 			method: "POST",
+		// 			data: {
+		// 				id: _id,
+		// 				field: "one",
+		// 				labelArea: labeled_area,
+		// 			},
+		// 		});
+		// 		console.log(result.data);
+		// 	} catch (e) {
+		// 		console.log(new Error(e).message);
+		// 	}
+		// }
+		// fetchData();
+		return () => {
+			console.log("test");
+			axios.get("/api/image/test");
+		};
 	}, []);
 
 	return <div>test</div>;

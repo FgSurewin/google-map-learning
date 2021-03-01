@@ -147,14 +147,25 @@ export class ImageService {
 	): Promise<void> {
 		const { res } = ctx;
 		try {
-			const test = await ImageModel.updateOne({ _id: id }, { [field]: labels });
+			const { ok } = await ImageModel.updateOne(
+				{ _id: id },
+				{ [field]: labels }
+			);
 			console.log("test -> ", test);
+			// 明天要处理count的问题, 建议前端直接传过来
 			const result = await ImageModel.findOne({ _id: id });
-			res.json({
-				code: 0,
-				message: "Add Successfully",
-				data: result,
-			});
+			if (ok === 1) {
+				res.json({
+					code: 0,
+					message: "Add Successfully",
+					data: result,
+				});
+			} else {
+				res.json({
+					code: 4000,
+					message: "Field name is invalid",
+				});
+			}
 		} catch (e) {
 			const error = new Error(e);
 			res.json({

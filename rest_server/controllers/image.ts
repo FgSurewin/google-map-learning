@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { log } from "../config/logger";
+import { log, Red } from "../config/logger";
 import { ImageService } from "../services/image";
 import { ImageBody, ImageParams } from "../types";
 
@@ -73,6 +73,8 @@ export class ImageController {
 		next: NextFunction
 	): Promise<void> {
 		const { labelArea, field, id }: ImageBody = req.body;
+		console.log(Red(field));
+		console.log(Red(id));
 		if (labelArea && field && id)
 			await imageService.addLabelArea({ req, res, next }, labelArea, id, field);
 		else
@@ -80,5 +82,10 @@ export class ImageController {
 				code: 6000,
 				message: "Post body is invalid.",
 			});
+	}
+
+	@log(NAMESPACE)
+	async test(req: Request, res: Response, next: NextFunction): Promise<void> {
+		console.log(Red("TEST ROUTE"));
 	}
 }
