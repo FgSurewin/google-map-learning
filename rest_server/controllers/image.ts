@@ -87,5 +87,8 @@ export class ImageController {
 	@log(NAMESPACE)
 	async test(req: Request, res: Response, next: NextFunction): Promise<void> {
 		console.log(Red("TEST ROUTE"));
+		res.json({
+			message: "Hello Test",
+		});
 	}
 }

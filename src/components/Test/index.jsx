@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
 // import { useLazyQuery } from "@apollo/client";
 // import { QUERY_RANDOM_IMAGE_LIST } from "../../graphql/image/query";
 
@@ -33,8 +33,8 @@ export default function Test() {
 		// }
 		// fetchData();
 		return () => {
-			console.log("test");
-			axios.get("/api/image/test");
+			// console.log("test");
+			// axios.get("/api/image/test");
 		};
 	}, []);
 

@@ -1,5 +1,5 @@
 // import BasicMap from "./components/BasicMap";
-import StreetView from "./views/StreetView";
+import StreetViewRest from "./views/StreetView/StreetViewRest";
 import { Route, NavLink as Link, Switch, Redirect } from "react-router-dom";
 import Validation from "./views/Validation";
 import Test from "./components/Test";
@@ -22,12 +22,12 @@ function App() {
 				}}
 			>
 				<Link to="/streetView">Street View Page</Link> |{" "}
-				<Link to="/validation">Validation Page</Link> |{" "}
+				<Link to="/validation/1">Validation Page</Link> |{" "}
 				<Link to="/test">Test Page</Link>
 			</nav>
 			<Switch>
-				<Route component={StreetView} path="/streetView" />
-				<Route component={Validation} path="/validation" />
+				<Route component={StreetViewRest} path="/streetView" />
+				<Route component={Validation} path="/validation/:id" />
 				<Route component={Test} path="/test" />
 				<Redirect from="/" to="/streetView" />
 			</Switch>

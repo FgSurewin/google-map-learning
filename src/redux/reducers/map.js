@@ -19,6 +19,7 @@ function mapReducer(state = initialState, action) {
 			};
 		case HANDLE_MAP:
 			const list = action.payload;
+			// const imagesId = list && list.map((item) => item._id);
 			return {
 				pano: list[0].pano,
 				position: {

@@ -1,22 +1,48 @@
 import React from "react";
 import Box from "../../components/Box";
 import LabelTool from "../../components/LabelTool";
-import { URL, boxes } from "./asset";
+// import { URL, boxes } from "./asset";
 import { v4 as uuidV4 } from "uuid";
 import { Target } from "../../components/Box/utils";
+import { useParams } from "react-router-dom";
+import { useSelector, shallowEqual } from "react-redux";
+import { fetchImage } from "../../api/images";
+import { boxDecorator } from "./asset";
 
 // import { useQuery, gql } from "@apollo/client";
 
 export default function Validation() {
-	const [box, setBox] = React.useState(() => boxes);
+	const [box, setBox] = React.useState(null);
+	const [url, setURL] = React.useState(null);
 	const [type, setType] = React.useState(null);
 	const [toggle, setToggle] = React.useState(false);
+	const params = useParams();
+
+	// Redux
+	const { images } = useSelector((state) => state.map, shallowEqual);
 
 	React.useEffect(() => {
+		async function loadFunction() {
+			if (images.length > 0) {
+				console.log("image from redux-> ", images);
+				images.forEach((item) => {
+					if (item._id === params.id) {
+						setBox(boxDecorator(item.labeled_area));
+						setURL(item.url);
+					}
+				});
+			} else {
+				const { data } = await fetchImage(params.id);
+				console.log("image from DB-> ", data);
+				setBox(boxDecorator(data.data.labeled_area));
+				setURL(data.data.url);
+			}
+		}
+		loadFunction();
 		return () => {
 			console.log("close pages");
 		};
-	}, []);
+	}, [images, params]);
 
 	const finish = (start, end, target) => {
 		setBox([
@@ -72,39 +98,43 @@ export default function Validation() {
 				<button onClick={handleType(Target.STAIRS)}>stairs</button>
 				<button onClick={() => setToggle(false)}>cancel</button>
 			</div>
-			<div
-				style={{
-					width: "800px",
-					position: "relative",
-				}}
-			>
-				{box &&
-					box.length > 0 &&
-					box.map(({ id, startPoint, endPoint, target, isClick }) => (
-						<Box
-							key={id}
-							startPoint={startPoint}
-							endPoint={endPoint}
-							target={target}
-							BoxClick={BoxClick(id)}
-							BoxDelete={BoxDelete(id)}
-							isClick={isClick}
-						/>
-					))}
-				<LabelTool
-					finish={finish}
-					type={type}
-					toggle={toggle}
-					clearClick={clearClick}
-				/>
-				<img
-					src={URL}
-					alt="label"
+			{box === null ? (
+				<h1>Loading....</h1>
+			) : (
+				<div
 					style={{
-						width: "100%",
+						width: "800px",
+						position: "relative",
 					}}
-				/>
-			</div>
+				>
+					{box &&
+						box.length > 0 &&
+						box.map(({ id, startPoint, endPoint, target, isClick }) => (
+							<Box
+								key={id}
+								startPoint={startPoint}
+								endPoint={endPoint}
+								target={target}
+								BoxClick={BoxClick(id)}
+								BoxDelete={BoxDelete(id)}
+								isClick={isClick}
+							/>
+						))}
+					<LabelTool
+						finish={finish}
+						type={type}
+						toggle={toggle}
+						clearClick={clearClick}
+					/>
+					<img
+						src={url}
+						alt="label"
+						style={{
+							width: "100%",
+						}}
+					/>
+				</div>
+			)}
 		</div>
 	);
 }
