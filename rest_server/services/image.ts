@@ -57,7 +57,7 @@ export class ImageService {
 				_id: id,
 			});
 			if (result) {
-				await this.trigger(true, result._id);
+				// await this.trigger(true, result._id);
 				res.json({
 					code: 0,
 					message: "Get one image by _id",
@@ -84,7 +84,6 @@ export class ImageService {
 		try {
 			const collections: ImageInterface[] = await ImageModel.find({
 				isLabeled: false,
-				count: { $lt: 3 },
 			});
 			if (collections.length === 0) {
 				res.json({
@@ -94,6 +93,10 @@ export class ImageService {
 				});
 			} else {
 				const random = Math.floor(Math.random() * collections.length);
+				collections.forEach((item) => {
+					console.log(Red(item.name));
+				});
+				console.log(`${Red("Length")} -> ${collections.length}`);
 				const pano: string = collections[random].pano;
 				const result: ImageInterface[] = await ImageModel.find({ pano });
 				res.json({

@@ -18,6 +18,18 @@ export default function Validation() {
 	const [toggle, setToggle] = React.useState(false);
 	const params = useParams();
 
+	React.useEffect(() => {
+		const listener = (ev) => {
+			ev.preventDefault();
+			console.log("Hello Test");
+			return (ev.returnValue = "Are you sure you want to exit?");
+		};
+		window.addEventListener("beforeunload", listener);
+		return () => {
+			window.removeEventListener("beforeunload", listener);
+		};
+	}, []);
+
 	// Redux
 	const { images } = useSelector((state) => state.map, shallowEqual);
 
