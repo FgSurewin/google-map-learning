@@ -11,3 +11,11 @@ export const fetchImage = (id) =>
 		method: "GET",
 		url: `/image/getOneById/${id}`,
 	});
+
+export const fetchToggle = (data) => {
+	myService.request({
+		method: "POST",
+		url: `/image/toggle`,
+		data,
+	});
+};

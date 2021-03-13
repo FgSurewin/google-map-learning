@@ -27,14 +27,14 @@ export function generateMapOption(lat, lng) {
 	};
 }
 
-export function generateStreetOption(lat, lng) {
+export function generateStreetOption(lat, lng, heading = 230) {
 	return {
 		position: {
 			lat,
 			lng,
 		},
 		pov: {
-			heading: 230,
+			heading,
 			pitch: 0,
 		},
 	};

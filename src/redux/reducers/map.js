@@ -26,6 +26,7 @@ function mapReducer(state = initialState, action) {
 					...state.position,
 					lat: list[0].lat,
 					lng: list[0].lon,
+					heading: list[0].yaw,
 				},
 				images: [...list],
 			};

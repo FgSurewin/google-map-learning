@@ -41,6 +41,7 @@ const StreetViewRest = () => {
 		(state) => state.map,
 		shallowEqual
 	);
+	// console.log("position -> ", position);
 	const _mount = React.useRef(pano);
 
 	const dispatch = useDispatch();
@@ -156,7 +157,11 @@ const StreetViewRest = () => {
 					<OriginalMap
 						api={process.env.REACT_APP_API_KEY}
 						mainStyle={generateBorderStyle(labelColor)}
-						streetViewOptions={generateStreetOption(position.lat, position.lng)}
+						streetViewOptions={generateStreetOption(
+							position.lat,
+							position.lng,
+							position.heading
+						)}
 						// streetViewOptions={streetViewOptions}
 						mapOptions={generateMapOption(position.lat, position.lng)}
 						// mapOptions={mapOptions}

@@ -11,7 +11,7 @@ export interface LabelInterface extends Document {
 export interface ImageInterface extends Document {
 	image_id: string;
 	pano: string;
-	name: string;
+	// name: string;
 	lat: number;
 	lon: number;
 	url: string;
@@ -38,10 +38,10 @@ const ImageModel = new Schema({
 		type: String,
 		required: true,
 	},
-	name: {
-		type: String,
-		required: true,
-	},
+	// name: {
+	// 	type: String,
+	// 	required: true,
+	// },
 	lat: {
 		type: Number,
 		required: true,

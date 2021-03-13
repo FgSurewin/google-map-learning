@@ -57,9 +57,12 @@ export class ImageController {
 	@log(NAMESPACE)
 	async toggle(req: Request, res: Response, next: NextFunction): Promise<void> {
 		const { labeled, id }: ImageBody = req.body;
-		if (labeled && id)
-			await imageService.toggle({ req, res, next }, labeled, id);
-		else
+		console.log("labeled -> ", Red(labeled));
+		console.log("id -> ", Red(id));
+		if (id) {
+			console.log("Here@@@@@@@@");
+			await imageService.toggle({ req, res, next }, labeled!, id);
+		} else
 			res.json({
 				code: 6000,
 				message: "Post body is invalid.",

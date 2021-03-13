@@ -4,9 +4,9 @@ import LabelTool from "../../components/LabelTool";
 // import { URL, boxes } from "./asset";
 import { v4 as uuidV4 } from "uuid";
 import { Target } from "../../components/Box/utils";
-import { useParams } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import { fetchImage } from "../../api/images";
+import { useParams, useHistory } from "react-router-dom";
+// import { useSelector, shallowEqual } from "react-redux";
+import { fetchImage, fetchToggle } from "../../api/images";
 import { boxDecorator } from "./asset";
 
 // import { useQuery, gql } from "@apollo/client";
@@ -17,44 +17,52 @@ export default function Validation() {
 	const [type, setType] = React.useState(null);
 	const [toggle, setToggle] = React.useState(false);
 	const params = useParams();
+	const history = useHistory();
 
+	// Get warning when the user close the page
 	React.useEffect(() => {
-		const listener = (ev) => {
+		const listener = async (ev) => {
 			ev.preventDefault();
-			console.log("Hello Test");
+			const result = await fetchToggle({ labeled: false, id: params.id });
+			console.log("result -> ", result);
 			return (ev.returnValue = "Are you sure you want to exit?");
 		};
 		window.addEventListener("beforeunload", listener);
 		return () => {
 			window.removeEventListener("beforeunload", listener);
 		};
-	}, []);
+	}, [params]);
 
 	// Redux
-	const { images } = useSelector((state) => state.map, shallowEqual);
+	// const { images } = useSelector((state) => state.map, shallowEqual);
 
 	React.useEffect(() => {
 		async function loadFunction() {
-			if (images.length > 0) {
-				console.log("image from redux-> ", images);
-				images.forEach((item) => {
-					if (item._id === params.id) {
-						setBox(boxDecorator(item.labeled_area));
-						setURL(item.url);
-					}
-				});
-			} else {
-				const { data } = await fetchImage(params.id);
-				console.log("image from DB-> ", data);
-				setBox(boxDecorator(data.data.labeled_area));
-				setURL(data.data.url);
-			}
+			// if (images.length > 0) {
+			// 	console.log("image from redux-> ", images);
+			// 	images.forEach((item) => {
+			// 		if (item._id === params.id) {
+			// 			setBox(boxDecorator(item.labeled_area));
+			// 			setURL(item.url);
+			// 		}
+			// 	});
+			// } else {
+			// 	const { data } = await fetchImage(params.id);
+			// 	console.log("image from DB-> ", data);
+			// 	setBox(boxDecorator(data.data.labeled_area));
+			// 	setURL(data.data.url);
+			// }
+			const { data } = await fetchImage(params.id);
+			console.log("image from DB-> ", data);
+			setBox(boxDecorator(data.data.labeled_area));
+			setURL(data.data.url);
 		}
 		loadFunction();
-		return () => {
+		return async () => {
+			await fetchToggle({ labeled: false, id: params.id });
 			console.log("close pages");
 		};
-	}, [images, params]);
+	}, [params]);
 
 	const finish = (start, end, target) => {
 		setBox([
@@ -103,7 +111,14 @@ export default function Validation() {
 		<div>
 			<h1>Validation</h1>
 			<div>
-				<button>back</button>
+				<button
+					onClick={async () => {
+						await fetchToggle({ labeled: false, id: params.id });
+						history.push("/streetView");
+					}}
+				>
+					back
+				</button>
 				<button onClick={handleType(Target.DOOR)}>door</button>
 				<button onClick={handleType(Target.RAMP)}>ramp</button>
 				<button onClick={handleType(Target.KNOB)}>knob</button>
