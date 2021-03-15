@@ -12,10 +12,16 @@ export const fetchImage = (id) =>
 		url: `/image/getOneById/${id}`,
 	});
 
-export const fetchToggle = (data) => {
+export const fetchToggle = (data) =>
 	myService.request({
 		method: "POST",
 		url: `/image/toggle`,
 		data,
 	});
-};
+
+export const addLabeledArea = (data) =>
+	myService.request({
+		method: "POST",
+		url: `/image/addLabelArea`,
+		data,
+	});

@@ -6,8 +6,8 @@ import { v4 as uuidV4 } from "uuid";
 import { Target } from "../../components/Box/utils";
 import { useParams, useHistory } from "react-router-dom";
 // import { useSelector, shallowEqual } from "react-redux";
-import { fetchImage, fetchToggle } from "../../api/images";
-import { boxDecorator } from "./asset";
+import { addLabeledArea, fetchImage, fetchToggle } from "../../api/images";
+import { boxDecorator, boxReverser } from "./asset";
 
 // import { useQuery, gql } from "@apollo/client";
 
@@ -124,6 +124,19 @@ export default function Validation() {
 				<button onClick={handleType(Target.KNOB)}>knob</button>
 				<button onClick={handleType(Target.STAIRS)}>stairs</button>
 				<button onClick={() => setToggle(false)}>cancel</button>
+				<button
+					onClick={async () => {
+						const result = await addLabeledArea({
+							id: params.id,
+							labelArea: boxReverser(box),
+						});
+						console.log("addLabeledArea -> ", result);
+						await fetchToggle({ labeled: false, id: params.id });
+						history.push("/streetView");
+					}}
+				>
+					SUBMIT
+				</button>
 			</div>
 			{box === null ? (
 				<h1>Loading....</h1>

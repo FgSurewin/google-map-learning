@@ -148,16 +148,15 @@ export class ImageService {
 		ctx: AppContext,
 		labels: LabelInterface[],
 		id: string,
-		field: ImageField
+		field: ImageField,
+		count: number
 	): Promise<void> {
 		const { res } = ctx;
 		try {
 			const { ok } = await ImageModel.updateOne(
 				{ _id: id },
-				{ [field]: labels }
+				{ [field]: labels, count }
 			);
-			console.log("test -> ", test);
-			// 明天要处理count的问题, 建议前端直接传过来
 			const result = await ImageModel.findOne({ _id: id });
 			if (ok === 1) {
 				res.json({

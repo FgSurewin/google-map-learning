@@ -6,6 +6,28 @@ export const URL =
 export const WIDTH = 3584;
 export const RATIO = 800 / WIDTH;
 
+export const targetReverser = (target) => {
+	const { DOOR, KNOB, RAMP, STAIRS } = Target;
+	let result = 1;
+	switch (target) {
+		case DOOR:
+			result = 1;
+			break;
+		case KNOB:
+			result = 2;
+			break;
+		case STAIRS:
+			result = 3;
+			break;
+		case RAMP:
+			result = 4;
+			break;
+		default:
+			break;
+	}
+	return result;
+};
+
 export const targetConvertor = (target) => {
 	let result;
 	const { DOOR, KNOB, RAMP, STAIRS } = Target;
@@ -42,9 +64,24 @@ export const boxDecorator = (box) => {
 			x: item.box[2],
 			y: item.box[3],
 		},
+		score: item.score,
 	}));
 };
 
+export const boxReverser = (box) => {
+	return box.map((item) => ({
+		score: item.score,
+		label_id: item.id,
+		create_at: new Date().toISOString(),
+		label: targetReverser(item.target),
+		box: [
+			item.startPoint.x,
+			item.startPoint.y,
+			item.endPoint.x,
+			item.endPoint.y,
+		],
+	}));
+};
 export const boxes = [
 	{
 		id: "one",
