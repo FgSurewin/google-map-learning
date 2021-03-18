@@ -12,6 +12,7 @@ import {
 import { onError } from "@apollo/client/link/error";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { createGlobalStyle } from "styled-components";
 
 const errorLink = onError(({ graphqlErrors }) => {
 	if (graphqlErrors) {
@@ -32,10 +33,19 @@ const client = new ApolloClient({
 	connectToDevTools: true,
 });
 
+const GlobalStyle = createGlobalStyle`
+ *{
+	 margin: 0;
+	 padding: 0;
+	 box-sizing: border-box;
+ }
+`;
+
 ReactDOM.render(
 	<Provider store={store}>
 		<Router>
 			<ApolloProvider client={client}>
+				<GlobalStyle />
 				<App />
 			</ApolloProvider>
 		</Router>

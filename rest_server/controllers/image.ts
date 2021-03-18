@@ -76,7 +76,9 @@ export class ImageController {
 		next: NextFunction
 	): Promise<void> {
 		const { labelArea, id }: ImageBody = req.body;
-		const result = await ImageModel.findById({ _id: id });
+		const result: ImageInterface | null = await ImageModel.findById({
+			_id: id,
+		});
 		if (result) {
 			// console.log(Red(field));
 			// console.log(Red(id));
