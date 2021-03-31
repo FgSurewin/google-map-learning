@@ -35,5 +35,8 @@ export const lessThan = (size, content) => css`
 	}
 `;
 
+// When the screen size is less than or equal to small screen.
 export const hide_for_mobile = lessThan(MEDIUM, "display: none");
+
+// When the screen size is greater than or equal to small screen.
 export const hide_for_desktop = greaterThan(LARGE, "display: none");

@@ -13,6 +13,8 @@ import { onError } from "@apollo/client/link/error";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { GlobalStyle } from "./style/globalStyle";
+import { ThemeProvider } from "styled-components";
+import { basicTheme } from "./style/theme";
 
 const errorLink = onError(({ graphqlErrors }) => {
 	if (graphqlErrors) {
@@ -35,12 +37,14 @@ const client = new ApolloClient({
 
 ReactDOM.render(
 	<Provider store={store}>
-		<Router>
-			<ApolloProvider client={client}>
-				<GlobalStyle />
-				<App />
-			</ApolloProvider>
-		</Router>
+		<ThemeProvider theme={basicTheme}>
+			<Router>
+				<ApolloProvider client={client}>
+					<GlobalStyle />
+					<App />
+				</ApolloProvider>
+			</Router>
+		</ThemeProvider>
 	</Provider>,
 	document.getElementById("root")
 );

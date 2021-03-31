@@ -12,9 +12,9 @@ import {
 import { GoThreeBars } from "react-icons/go";
 import BigLogo from "../../images/BigLogo.svg";
 
-export default function Navbar() {
+export default function Navbar({ primary = "white" }) {
 	return (
-		<NavbarWrapper>
+		<NavbarWrapper primary={primary}>
 			<NavbarContainer>
 				<NavbarLogo>
 					<NavbarLink to="/home">
@@ -26,10 +26,10 @@ export default function Navbar() {
 				</NavbarHamburger>
 				<NavbarList>
 					<NavbarItem>
-						<NavbarLink to="/streetView">one</NavbarLink>
+						<NavbarLink to="/streetView">Start Exploring</NavbarLink>
 					</NavbarItem>
-					<NavbarItem>
-						<NavbarLink to="/streetView">two</NavbarLink>
+					<NavbarItem circle>
+						<NavbarLink to="/streetView">Sign In</NavbarLink>
 					</NavbarItem>
 				</NavbarList>
 			</NavbarContainer>
