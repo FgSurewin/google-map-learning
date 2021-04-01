@@ -10,27 +10,36 @@ import {
 	NavbarContainer,
 } from "./NavbarStyle";
 import { GoThreeBars } from "react-icons/go";
-import BigLogo from "../../images/BigLogo.svg";
+import { navbarData } from "./data";
 
-export default function Navbar({ primary = "white" }) {
+export default function Navbar({ primary = "white", isStatic = true }) {
+	const logoSrc =
+		primary === "white" ? navbarData.blackLogo : navbarData.whiteLogo;
 	return (
-		<NavbarWrapper primary={primary}>
-			<NavbarContainer>
+		<NavbarWrapper primary={primary} isStatic={isStatic}>
+			<NavbarContainer isStatic={isStatic}>
 				<NavbarLogo>
 					<NavbarLink to="/home">
-						<Logo src={BigLogo} alt="BigLogo" />
+						<Logo src={logoSrc} alt="BigLogo" />
 					</NavbarLink>
 				</NavbarLogo>
-				<NavbarHamburger>
-					<GoThreeBars />
-				</NavbarHamburger>
-				<NavbarList>
-					<NavbarItem>
-						<NavbarLink to="/streetView">Start Exploring</NavbarLink>
-					</NavbarItem>
-					<NavbarItem circle>
-						<NavbarLink to="/streetView">Sign In</NavbarLink>
-					</NavbarItem>
+				{!isStatic && (
+					<NavbarHamburger>
+						<GoThreeBars />
+					</NavbarHamburger>
+				)}
+				<NavbarList isStatic={isStatic}>
+					{navbarData.nav.map((item, index) => (
+						<NavbarItem
+							{...item.style}
+							key={index + item.text}
+							primary={primary}
+						>
+							<NavbarLink primary={primary} to="/streetView">
+								{item.text}
+							</NavbarLink>
+						</NavbarItem>
+					))}
 				</NavbarList>
 			</NavbarContainer>
 		</NavbarWrapper>
