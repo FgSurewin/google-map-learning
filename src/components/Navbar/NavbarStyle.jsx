@@ -8,12 +8,25 @@ const circleStyle = css`
 			props.primary === "white" ? props.theme.primaryFont : "white"};
 	filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 	border-radius: 30px;
-	padding: 2px 10px;
+	padding: 6px 14px;
+	&:hover {
+		border: 1px solid #d6974d;
+	}
+`;
+
+const fixedStyle = css`
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	/* max-width: 1256px; */
 `;
 
 export const NavbarWrapper = styled.nav`
-	background-color: black;
-	${(props) => (props.isStatic ? "min-width: 1256px;" : "max-width: 1256px;")}
+	z-index: 10;
+	background-color: transparent;
+	position: relative;
+	${(props) => props.isStatic && "min-width: 1256px;"}
 	${(props) =>
 		props.primary === "white" &&
 		css`
@@ -21,6 +34,7 @@ export const NavbarWrapper = styled.nav`
 			box-shadow: 0px 4px 10px 6px rgba(0, 0, 0, 0.25);
 			color: ${props.theme.primaryFont};
 		`}
+	${(props) => props.isFixed && fixedStyle}
 `;
 
 export const NavbarContainer = styled.div`
@@ -30,16 +44,25 @@ export const NavbarContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	height: 90px;
+	height: ${REM(90)};
 	padding: 0 30px;
+	z-index: 1;
 `;
 
-export const NavbarLogo = styled.div``;
+export const NavbarLogo = styled.div`
+	z-index: 1;
+`;
 
 export const Logo = styled.img``;
 
 export const NavbarHamburger = styled.div`
-	color: white;
+	color: ${(props) =>
+		props.primary === "white" ? props.theme.primaryFont : "white"};
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	z-index: 1;
 	${hide_for_desktop}
 `;
 
@@ -53,7 +76,6 @@ export const NavbarList = styled.ul`
 
 export const NavbarItem = styled.li`
 	margin: 0 ${REM(38)};
-	${(props) => props.circle && circleStyle}
 `;
 
 export const NavbarLink = styled(NavLink)`
@@ -61,4 +83,81 @@ export const NavbarLink = styled(NavLink)`
 	color: ${(props) =>
 		props.primary === "white" ? props.theme.primaryFont : "white"};
 	font-size: ${REM(18)};
+	${(props) => props.size && circleStyle}
+	&:hover {
+		color: #d6974d;
+		font-weight: bolder;
+	}
+`;
+const blackBackground = css`
+	background: #000000; /* fallback for old browsers */
+	background: -webkit-linear-gradient(
+		to left,
+		#434343,
+		#000000
+	); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(
+		to left,
+		#434343,
+		#000000
+	); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+`;
+const whiteBackground = css`
+	background: #ece9e6; /* fallback for old browsers */
+	background: -webkit-linear-gradient(
+		to left,
+		#ffffff,
+		#ece9e6
+	); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(
+		to left,
+		#ffffff,
+		#ece9e6
+	); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+`;
+export const MobileMenu = styled.ul`
+	position: fixed;
+	left: 0;
+	top: 0;
+	padding-top: ${REM(90)};
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: ${(props) =>
+		props.primary === "white" ? "white" : "black"};
+	transition: all 4s;
+	&::after {
+		content: "";
+		display: block;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		${(props) =>
+			props.primary === "white" ? whiteBackground : blackBackground}
+
+		z-index: -1;
+	}
+`;
+
+export const MobileItem = styled.li`
+	padding: 20px 0px;
+	font-size: ${REM(34)};
+	text-align: center;
+	cursor: pointer;
+	width: 100%;
+	&:hover {
+		background-color: #d6974d;
+		font-weight: bolder;
+	}
+`;
+
+export const MobileLink = styled(NavLink)`
+	text-decoration: none;
+	color: ${(props) =>
+		props.primary === "white" ? props.theme.primaryFont : "white"};
+	font-size: ${REM(28)};
 `;
