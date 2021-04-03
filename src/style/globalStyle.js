@@ -1,4 +1,5 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle, css } from "styled-components";
+import { lessThan, MEDIUM } from "./helper";
 
 export const GlobalStyle = createGlobalStyle`
  *{
@@ -13,4 +14,17 @@ export const GlobalStyle = createGlobalStyle`
  a{
 	 text-decoration: none;
  }
+`;
+
+export const Container = styled.div`
+	max-width: 1256px;
+	display: flex;
+	align-items: center;
+	margin: 0 auto;
+	${lessThan(
+		MEDIUM,
+		css`
+			flex-direction: column;
+		`
+	)}
 `;

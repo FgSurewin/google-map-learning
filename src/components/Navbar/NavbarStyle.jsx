@@ -23,7 +23,7 @@ const fixedStyle = css`
 `;
 
 export const NavbarWrapper = styled.nav`
-	z-index: 10;
+	z-index: 110;
 	background-color: transparent;
 	position: relative;
 	${(props) => props.isStatic && "min-width: 1256px;"}
@@ -46,11 +46,11 @@ export const NavbarContainer = styled.div`
 	align-items: center;
 	height: ${REM(90)};
 	padding: 0 30px;
-	z-index: 1;
+	z-index: 110;
 `;
 
 export const NavbarLogo = styled.div`
-	z-index: 1;
+	z-index: 110;
 `;
 
 export const Logo = styled.img``;
@@ -62,7 +62,7 @@ export const NavbarHamburger = styled.div`
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
-	z-index: 1;
+	z-index: 110;
 	${hide_for_desktop}
 `;
 
@@ -139,7 +139,7 @@ export const MobileMenu = styled.ul`
 		${(props) =>
 			props.primary === "white" ? whiteBackground : blackBackground}
 
-		z-index: -1;
+		z-index: 100;
 	}
 `;
 
@@ -149,6 +149,7 @@ export const MobileItem = styled.li`
 	text-align: center;
 	cursor: pointer;
 	width: 100%;
+	z-index: 110;
 	&:hover {
 		background-color: #d6974d;
 		font-weight: bolder;
