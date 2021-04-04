@@ -20,7 +20,6 @@ export const Container = styled.div`
 	max-width: 1256px;
 	display: flex;
 	align-items: center;
-	margin: 0 auto;
 	${lessThan(
 		MEDIUM,
 		css`

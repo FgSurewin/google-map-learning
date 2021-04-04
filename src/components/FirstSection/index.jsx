@@ -9,6 +9,7 @@ import {
 	FirstSectionText,
 	DotBackground,
 	FirstSectionBox,
+	QuestionMark,
 } from "./FirstSectionStyle";
 
 export default function FirstSection() {
@@ -19,6 +20,10 @@ export default function FirstSection() {
 					<FirstSectionContent>
 						<FirstSectionTitle>{FirstSectionData.title}</FirstSectionTitle>
 						<FirstSectionText>{FirstSectionData.content}</FirstSectionText>
+						<QuestionMark
+							src={FirstSectionData.questionMark}
+							alt="QuestionMark"
+						/>
 					</FirstSectionContent>
 					<DotBackground src={FirstSectionData.dot} alt="dot" />
 				</FirstSectionBox>

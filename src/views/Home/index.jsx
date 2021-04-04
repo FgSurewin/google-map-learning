@@ -7,6 +7,7 @@ export default function Home() {
 		<>
 			<Header />
 			<FirstSection />
+			<div style={{ height: "100vh" }} />
 		</>
 	);
 }

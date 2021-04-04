@@ -2,25 +2,29 @@ import { css } from "styled-components";
 
 export const REM = (pixel) => `${pixel / 16}rem`;
 
-const phone = 640;
-const tablet = 1024;
-const laptop = 1400;
+const phone = 380;
+const tablet = 640;
+const laptop = 1024;
+const desktop = 1400;
 
+export const X_SMALL = "xSmall";
 export const SMALL = "small";
 export const MEDIUM = "medium";
 export const LARGE = "large";
 export const X_LARGE = "xLarge";
 
 export const BREAKPOINT_UP = {
-	medium: REM(phone),
-	large: REM(tablet),
-	xLarge: REM(laptop),
+	small: REM(phone),
+	medium: REM(tablet),
+	large: REM(laptop),
+	xLarge: REM(desktop),
 };
 
 export const BREAKPOINT_DOWN = {
-	small: REM(phone - 1),
-	medium: REM(tablet - 1),
-	large: REM(laptop - 1),
+	xSmall: REM(phone - 1),
+	small: REM(tablet - 1),
+	medium: REM(laptop - 1),
+	large: REM(desktop - 1),
 };
 
 export const greaterThan = (size, content) => css`
