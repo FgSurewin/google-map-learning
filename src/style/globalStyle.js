@@ -20,6 +20,7 @@ export const Container = styled.div`
 	max-width: 1256px;
 	display: flex;
 	align-items: center;
+	flex-direction: ${(props) => (props.reverse ? "row-reverse" : "row")};
 	${lessThan(
 		MEDIUM,
 		css`
