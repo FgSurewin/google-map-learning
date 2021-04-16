@@ -11,11 +11,13 @@ export const SecondSectionWrapper = styled.section`
 		css`
 			height: ${REM(760)};
 			padding-top: ${REM(50)};
+			padding-bottom: ${REM(40)};
 		`
 	)}
 	${lessThan(
 		SMALL,
 		css`
+			height: ${REM(800)};
 			justify-content: start;
 			padding-left: 30px;
 			padding-right: 30px;
