@@ -1,12 +1,46 @@
-.swiper-slide {
-	text-align: center;
-	color: #ffffff;
-	background-color: black;
-}
-.swiper-button-next {
-	color: #ffffff;
-}
+.Carousel {
+	position: relative;
 
-.swiper-button-prev {
-	color: #ffffff;
+	.slide-container {
+		position: relative;
+		height: 500px;
+
+		.slide-icon {
+			position: absolute;
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+
+	.swiper-cover {
+		transform: translateY(-10%);
+	}
+
+	.swiper-slide {
+		text-align: center;
+		color: #ffffff;
+		background-color: black;
+	}
+	.swiper-button-next {
+		color: #ffffff;
+		margin-right: 300px;
+		background: #d6974d;
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+	}
+
+	.swiper-button-prev {
+		color: #ffffff;
+		margin-left: 300px;
+		background: #d6974d;
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+	}
 }
