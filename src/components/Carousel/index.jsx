@@ -5,6 +5,18 @@ import Swiper, { Navigation } from "swiper";
 import "swiper/swiper-bundle.css";
 import "./style.scss";
 import { CarouselData } from "./data";
+import {
+	CarouselIllustration,
+	CarouselWrapper,
+	NavigationButton,
+	SlideContainer,
+	SlideContent,
+	SlideCover,
+	SlideIcon,
+	SlideName,
+	SwiperCover,
+	SwiperSlide,
+} from "./CarouselStyle";
 
 Swiper.use([Navigation]);
 
@@ -20,27 +32,27 @@ export default function Carousel() {
 	}, []);
 
 	return (
-		<div className="Carousel">
-			<img src={CarouselData.curve} alt="curve" />
-			<div className="swiper-cover">
+		<CarouselWrapper>
+			<CarouselIllustration src={CarouselData.curve} alt="curve" />
+			<SwiperCover>
 				<div className="swiper-container">
 					<div className="swiper-wrapper">
 						{CarouselData.slides.map((slide, index) => (
-							<div className="swiper-slide" key={index}>
-								<div className="slide-container">
-									<img src={slide.icon} alt="icon" className="slide-icon" />
-									<div>
-										<p className="slide-name">{slide.name}</p>
-										<p className="slide-content">{slide.content}</p>
-									</div>
-								</div>
-							</div>
+							<SwiperSlide className="swiper-slide" key={index}>
+								<SlideContainer>
+									<SlideIcon src={slide.icon} alt="icon" />
+									<SlideCover>
+										<SlideName className="test">{slide.name}</SlideName>
+										<SlideContent>{slide.content}</SlideContent>
+									</SlideCover>
+								</SlideContainer>
+							</SwiperSlide>
 						))}
 					</div>
-					<div className="swiper-button-next"></div>
-					<div className="swiper-button-prev"></div>
+					<NavigationButton right className="swiper-button-next" />
+					<NavigationButton left className="swiper-button-prev" />
 				</div>
-			</div>
-		</div>
+			</SwiperCover>
+		</CarouselWrapper>
 	);
 }

@@ -7,7 +7,8 @@ export const CarouselData = {
 		{
 			icon: Girl,
 			name: "mary",
-			content: "First",
+			content:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis ligula ipsum, at egestas justo fermentum malesuada. Mauris augue lectus, laoreet non ligula eget, ultrices bibendum nibh. Sed pharetra libero ac libero elementum fermentum.",
 		},
 		{
 			icon: Girl,
