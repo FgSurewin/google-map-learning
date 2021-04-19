@@ -3,7 +3,6 @@ import React from "react";
 import Swiper, { Navigation } from "swiper";
 // import Swiper styles
 import "swiper/swiper-bundle.css";
-import "./style.scss";
 import { CarouselData } from "./data";
 import {
 	CarouselIllustration,
@@ -14,29 +13,30 @@ import {
 	SlideCover,
 	SlideIcon,
 	SlideName,
+	SwiperContainer,
 	SwiperCover,
 	SwiperSlide,
+	SwiperWrapper,
 } from "./CarouselStyle";
 
 Swiper.use([Navigation]);
 
 export default function Carousel() {
 	React.useEffect(() => {
-		const swiper = new Swiper(".swiper-container", {
+		new Swiper(".swiper-container", {
 			navigation: {
 				nextEl: ".swiper-button-next",
 				prevEl: ".swiper-button-prev",
 			},
 		});
-		console.log(swiper);
 	}, []);
 
 	return (
 		<CarouselWrapper>
 			<CarouselIllustration src={CarouselData.curve} alt="curve" />
 			<SwiperCover>
-				<div className="swiper-container">
-					<div className="swiper-wrapper">
+				<SwiperContainer className="swiper-container">
+					<SwiperWrapper className="swiper-wrapper">
 						{CarouselData.slides.map((slide, index) => (
 							<SwiperSlide className="swiper-slide" key={index}>
 								<SlideContainer>
@@ -48,10 +48,10 @@ export default function Carousel() {
 								</SlideContainer>
 							</SwiperSlide>
 						))}
-					</div>
+					</SwiperWrapper>
 					<NavigationButton right className="swiper-button-next" />
 					<NavigationButton left className="swiper-button-prev" />
-				</div>
+				</SwiperContainer>
 			</SwiperCover>
 		</CarouselWrapper>
 	);

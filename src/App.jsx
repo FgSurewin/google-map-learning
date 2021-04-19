@@ -2,7 +2,7 @@
 import StreetViewRest from "./views/StreetView/StreetViewRest";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Validation from "./views/Validation";
-// import Test from "./components/Test";
+import Test from "./components/Test";
 import Home from "./views/Home";
 
 function App() {
@@ -30,7 +30,9 @@ function App() {
 				<Route component={StreetViewRest} path="/streetView" />
 				<Route component={Validation} path="/validation/:id" />
 				<Route component={Home} path="/home" />
-				<Redirect from="/" to="/home" />
+				<Route component={Test} path="/test" />
+				<Redirect exact from="/" to="/home" />
+				<Redirect to="test" />
 			</Switch>
 			{/* <BasicMap api={process.env.REACT_APP_API_KEY} center={center} /> */}
 		</div>

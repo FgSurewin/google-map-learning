@@ -69,7 +69,7 @@ export const SlideCover = styled.div`
 		X_SMALL,
 		css`
 			width: 300px;
-			height: 400px;
+			/* height: 30px; */
 			padding: 4px;
 		`
 	)}
@@ -136,3 +136,10 @@ export const NavigationButton = styled.div`
 		`
 	)}
 `;
+
+export const SwiperContainer = styled.div`
+	position: relative;
+	height: 500px;
+`;
+
+export const SwiperWrapper = styled.div``;
