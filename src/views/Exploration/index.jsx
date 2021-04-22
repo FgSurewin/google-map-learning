@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { HANDLE_MAP } from "../../redux/actionTypes";
 import { fetchRandomList } from "../../api/images";
 import Navbar from "../../components/Navbar";
-import { ExplorationWrapper } from "./style";
+import { ExplorationContainer, ExplorationWrapper, NextButton } from "./style";
 // import Background from "../../images/Group1.png";
 
 const defaultInfo = {
@@ -52,20 +52,8 @@ const Exploration = () => {
 	return (
 		<ExplorationWrapper>
 			<Navbar primary="white" isStatic={true} isFixed={true} />
-			<button
-				onClick={async () => {
-					const { data } = await fetchRandomList();
-					dispatch({ type: HANDLE_MAP, payload: data.data });
-				}}
-			>
-				NEXT
-			</button>
 			{pano && (
-				<div
-					style={{
-						display: "flex",
-					}}
-				>
+				<ExplorationContainer>
 					<OriginalMap
 						api={process.env.REACT_APP_API_KEY}
 						streetViewOptions={generateStreetOption(
@@ -76,7 +64,7 @@ const Exploration = () => {
 						mapOptions={generateMapOption(position.lat, position.lng)}
 						events={{ onPositionChanged }}
 					/>
-					<div style={{ transform: "translate(-100%, 0)" }}>
+					<div>
 						{images &&
 							images.map(({ _id }, index) => (
 								<div key={_id}>
@@ -93,8 +81,16 @@ const Exploration = () => {
 									</button>
 								</div>
 							))}
+						<NextButton
+							onClick={async () => {
+								const { data } = await fetchRandomList();
+								dispatch({ type: HANDLE_MAP, payload: data.data });
+							}}
+						>
+							NEXT
+						</NextButton>
 					</div>
-				</div>
+				</ExplorationContainer>
 			)}
 		</ExplorationWrapper>
 	);

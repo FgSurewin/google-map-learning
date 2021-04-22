@@ -28,7 +28,9 @@ function mapReducer(state = initialState, action) {
 					lng: list[0].lon,
 					heading: list[0].yaw,
 				},
-				images: [...list],
+				images: [...list].map((item) =>
+					Object.assign(item, { completed: false })
+				),
 			};
 
 		case HANDLE_PANO:
