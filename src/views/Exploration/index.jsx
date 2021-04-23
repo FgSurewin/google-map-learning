@@ -6,8 +6,31 @@ import { useHistory } from "react-router-dom";
 import { HANDLE_MAP } from "../../redux/actionTypes";
 import { fetchRandomList } from "../../api/images";
 import Navbar from "../../components/Navbar";
-import { ExplorationContainer, ExplorationWrapper, NextButton } from "./style";
-// import Background from "../../images/Group1.png";
+import {
+	ExplorationContainer,
+	ExplorationPanel,
+	ExplorationShowcase,
+	ExplorationWrapper,
+	NextButton,
+} from "./style";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+
+function LinearProgressWithLabel(props) {
+	return (
+		<Box display="flex" alignItems="center">
+			<Box width="100%" mr={1}>
+				<LinearProgress variant="determinate" {...props} />
+			</Box>
+			<Box minWidth={35}>
+				<Typography variant="body2" color="textSecondary">{`${Math.round(
+					props.value
+				)}%`}</Typography>
+			</Box>
+		</Box>
+	);
+}
 
 const defaultInfo = {
 	pano: "",
@@ -64,10 +87,11 @@ const Exploration = () => {
 						mapOptions={generateMapOption(position.lat, position.lng)}
 						events={{ onPositionChanged }}
 					/>
-					<div>
+					<ExplorationPanel>
+						<LinearProgressWithLabel value={10} variant="determinate" />
 						{images &&
 							images.map(({ _id }, index) => (
-								<div key={_id}>
+								<ExplorationShowcase key={_id}>
 									<span>Image - {index}</span>
 									<button
 										style={{
@@ -79,7 +103,7 @@ const Exploration = () => {
 									>
 										GO
 									</button>
-								</div>
+								</ExplorationShowcase>
 							))}
 						<NextButton
 							onClick={async () => {
@@ -89,7 +113,7 @@ const Exploration = () => {
 						>
 							NEXT
 						</NextButton>
-					</div>
+					</ExplorationPanel>
 				</ExplorationContainer>
 			)}
 		</ExplorationWrapper>

@@ -18,6 +18,10 @@ export const ExplorationContainer = styled.div`
 	justify-content: space-between;
 `;
 
+export const ExplorationPanel = styled.div``;
+
+export const ExplorationShowcase = styled.div``;
+
 export const NextButton = styled(Button)`
 	background-color: ${(props) => props.theme.primaryColor} !important;
 	color: white !important;

@@ -1,4 +1,4 @@
-import { HANDLE_MAP, HANDLE_PANO, SAVE_MAP_LIST } from "../actionTypes";
+import { HANDLE_COMPLETED, HANDLE_MAP } from "../actionTypes";
 
 const initialState = {
 	pano: null,
@@ -7,16 +7,17 @@ const initialState = {
 		lng: 0,
 	},
 	images: [],
+	progress: 0,
 };
 
 function mapReducer(state = initialState, action) {
 	switch (action.type) {
-		case SAVE_MAP_LIST:
-			const mapList = action.payload;
-			return {
-				...state,
-				images: [...mapList],
-			};
+		// case SAVE_MAP_LIST:
+		// 	const mapList = action.payload;
+		// 	return {
+		// 		...state,
+		// 		images: [...mapList],
+		// 	};
 		case HANDLE_MAP:
 			const list = action.payload;
 			// const imagesId = list && list.map((item) => item._id);
@@ -33,12 +34,23 @@ function mapReducer(state = initialState, action) {
 				),
 			};
 
-		case HANDLE_PANO:
-			const result = action.payload;
+		case HANDLE_COMPLETED:
+			const id = action.payload;
 			return {
 				...state,
-				pano: result,
+				progress: state.progress + 10,
+				images: [...state.images].map((item) => {
+					if (item._id === id) item.completed = true;
+					return item;
+				}),
 			};
+
+		// case HANDLE_PANO:
+		// 	const result = action.payload;
+		// 	return {
+		// 		...state,
+		// 		pano: result,
+		// 	};
 		default:
 			return state;
 	}
