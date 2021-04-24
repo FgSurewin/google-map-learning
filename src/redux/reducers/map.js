@@ -7,7 +7,7 @@ const initialState = {
 		lng: 0,
 	},
 	images: [],
-	progress: 0,
+	progress: 10,
 };
 
 function mapReducer(state = initialState, action) {
@@ -22,6 +22,7 @@ function mapReducer(state = initialState, action) {
 			const list = action.payload;
 			// const imagesId = list && list.map((item) => item._id);
 			return {
+				...state,
 				pano: list[0].pano,
 				position: {
 					...state.position,

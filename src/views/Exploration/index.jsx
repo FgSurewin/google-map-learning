@@ -8,10 +8,13 @@ import { fetchRandomList } from "../../api/images";
 import Navbar from "../../components/Navbar";
 import {
 	ExplorationContainer,
+	ExplorationCover,
 	ExplorationPanel,
 	ExplorationShowcase,
 	ExplorationWrapper,
 	NextButton,
+	ShowcaseButton,
+	ShowcaseText,
 } from "./style";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
@@ -51,12 +54,12 @@ const Exploration = () => {
 	const history = useHistory();
 
 	// Redux
-	const { pano, position, images } = useSelector(
+	const { pano, position, images, progress } = useSelector(
 		(state) => state.map,
 		shallowEqual
 	);
 	const dispatch = useDispatch();
-	// console.log("position -> ", position);
+	console.log("progress -> ", progress);
 	const _mount = React.useRef(pano);
 
 	React.useEffect(() => {
@@ -88,23 +91,28 @@ const Exploration = () => {
 						events={{ onPositionChanged }}
 					/>
 					<ExplorationPanel>
-						<LinearProgressWithLabel value={10} variant="determinate" />
-						{images &&
-							images.map(({ _id }, index) => (
-								<ExplorationShowcase key={_id}>
-									<span>Image - {index}</span>
-									<button
-										style={{
-											marginLeft: "20px",
-										}}
-										onClick={() => {
-											history.push(`/validation/${_id}`);
-										}}
-									>
-										GO
-									</button>
-								</ExplorationShowcase>
-							))}
+						<ExplorationCover>
+							<LinearProgressWithLabel
+								value={parseInt(progress)}
+								variant="determinate"
+							/>
+							{images &&
+								images.map(({ _id, completed }, index) => (
+									<ExplorationShowcase key={_id}>
+										<ShowcaseText finished={completed.toString()}>
+											Image - {index}
+										</ShowcaseText>
+										<ShowcaseButton
+											finished={completed.toString()}
+											onClick={() => {
+												history.push(`/validation/${_id}`);
+											}}
+										>
+											{completed ? "completed" : "view"}
+										</ShowcaseButton>
+									</ExplorationShowcase>
+								))}
+						</ExplorationCover>
 						<NextButton
 							onClick={async () => {
 								const { data } = await fetchRandomList();
