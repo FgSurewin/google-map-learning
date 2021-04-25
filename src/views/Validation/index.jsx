@@ -8,6 +8,8 @@ import { useParams, useHistory } from "react-router-dom";
 // import { useSelector, shallowEqual } from "react-redux";
 import { addLabeledArea, fetchImage, fetchToggle } from "../../api/images";
 import { boxDecorator, boxReverser } from "./asset";
+import Navbar from "../../components/Navbar";
+import { ValidationWrapper } from "./style";
 
 // import { useQuery, gql } from "@apollo/client";
 
@@ -108,12 +110,13 @@ export default function Validation() {
 		setBox((c) => c.filter((item) => item.id !== id));
 	};
 	return (
-		<div>
-			<h1>Validation</h1>
+		<ValidationWrapper>
+			<Navbar primary="white" isStatic={true} isFixed={true} />
 			<div>
 				<button
 					onClick={async () => {
-						await fetchToggle({ labeled: false, id: params.id });
+						const result = await fetchToggle({ labeled: false, id: params.id });
+						console.log("TOGGLE -> ", result);
 						history.push("/streetView");
 					}}
 				>
@@ -175,6 +178,6 @@ export default function Validation() {
 					/>
 				</div>
 			)}
-		</div>
+		</ValidationWrapper>
 	);
 }

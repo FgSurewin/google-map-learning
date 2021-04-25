@@ -10,16 +10,20 @@ export const getColor = (type) => {
 	let color = "#000";
 	switch (type) {
 		case DOOR:
-			color = "red";
+			// color = "red";
+			color = "#ec4646";
 			break;
 		case KNOB:
-			color = "blue";
+			// color = "green";
+			color = "#00af91";
 			break;
 		case RAMP:
-			color = "yellow";
+			// color = "yellow";
+			color = "#fed049";
 			break;
 		case STAIRS:
-			color = "green";
+			// color = "blue";
+			color = "#1a508b";
 			break;
 
 		default:
