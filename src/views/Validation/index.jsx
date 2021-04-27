@@ -9,7 +9,11 @@ import { useParams, useHistory } from "react-router-dom";
 import { addLabeledArea, fetchImage, fetchToggle } from "../../api/images";
 import { boxDecorator, boxReverser } from "./asset";
 import Navbar from "../../components/Navbar";
-import { ValidationWrapper } from "./style";
+import {
+	ValidationButtonGroup,
+	ValidationWrapper,
+	ValidationButton,
+} from "./style";
 
 // import { useQuery, gql } from "@apollo/client";
 
@@ -112,8 +116,8 @@ export default function Validation() {
 	return (
 		<ValidationWrapper>
 			<Navbar primary="white" isStatic={true} isFixed={true} />
-			<div>
-				<button
+			<ValidationButtonGroup>
+				<ValidationButton
 					onClick={async () => {
 						const result = await fetchToggle({ labeled: false, id: params.id });
 						console.log("TOGGLE -> ", result);
@@ -121,13 +125,23 @@ export default function Validation() {
 					}}
 				>
 					back
-				</button>
-				<button onClick={handleType(Target.DOOR)}>door</button>
-				<button onClick={handleType(Target.RAMP)}>ramp</button>
-				<button onClick={handleType(Target.KNOB)}>knob</button>
-				<button onClick={handleType(Target.STAIRS)}>stairs</button>
-				<button onClick={() => setToggle(false)}>cancel</button>
-				<button
+				</ValidationButton>
+				<ValidationButton onClick={handleType(Target.DOOR)}>
+					door
+				</ValidationButton>
+				<ValidationButton onClick={handleType(Target.RAMP)}>
+					ramp
+				</ValidationButton>
+				<ValidationButton onClick={handleType(Target.KNOB)}>
+					knob
+				</ValidationButton>
+				<ValidationButton onClick={handleType(Target.STAIRS)}>
+					stairs
+				</ValidationButton>
+				<ValidationButton onClick={() => setToggle(false)}>
+					cancel
+				</ValidationButton>
+				<ValidationButton
 					onClick={async () => {
 						const result = await addLabeledArea({
 							id: params.id,
@@ -139,8 +153,8 @@ export default function Validation() {
 					}}
 				>
 					SUBMIT
-				</button>
-			</div>
+				</ValidationButton>
+			</ValidationButtonGroup>
 			{box === null ? (
 				<h1>Loading....</h1>
 			) : (
