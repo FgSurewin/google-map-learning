@@ -3,7 +3,7 @@ import Box from "../../components/Box";
 import LabelTool from "../../components/LabelTool";
 // import { URL, boxes } from "./asset";
 import { v4 as uuidV4 } from "uuid";
-import { Target } from "../../components/Box/utils";
+import { getColor, Target } from "../../components/Box/utils";
 import { useParams, useHistory } from "react-router-dom";
 // import { useSelector, shallowEqual } from "react-redux";
 import { addLabeledArea, fetchImage, fetchToggle } from "../../api/images";
@@ -13,6 +13,7 @@ import {
 	ValidationButtonGroup,
 	ValidationWrapper,
 	ValidationButton,
+	ValidationGroup,
 } from "./style";
 
 // import { useQuery, gql } from "@apollo/client";
@@ -117,31 +118,55 @@ export default function Validation() {
 		<ValidationWrapper>
 			<Navbar primary="white" isStatic={true} isFixed={true} />
 			<ValidationButtonGroup>
+				<ValidationGroup>
+					<ValidationButton
+						btn={getColor(Target.DOOR)}
+						onClick={handleType(Target.DOOR)}
+					>
+						door
+					</ValidationButton>
+					<ValidationButton
+						btn={getColor(Target.RAMP)}
+						ml={63}
+						onClick={handleType(Target.RAMP)}
+					>
+						ramp
+					</ValidationButton>
+				</ValidationGroup>
+				<ValidationGroup>
+					<ValidationButton
+						btn={getColor(Target.KNOB)}
+						onClick={handleType(Target.KNOB)}
+					>
+						knob
+					</ValidationButton>
+					<ValidationButton
+						btn={getColor(Target.STAIRS)}
+						ml={68}
+						onClick={handleType(Target.STAIRS)}
+					>
+						stairs
+					</ValidationButton>
+				</ValidationGroup>
+				<ValidationGroup>
+					<ValidationButton
+						onClick={async () => {
+							const result = await fetchToggle({
+								labeled: false,
+								id: params.id,
+							});
+							console.log("TOGGLE -> ", result);
+							history.push("/streetView");
+						}}
+					>
+						back
+					</ValidationButton>
+					<ValidationButton ml={68} onClick={() => setToggle(false)}>
+						cancel
+					</ValidationButton>
+				</ValidationGroup>
 				<ValidationButton
-					onClick={async () => {
-						const result = await fetchToggle({ labeled: false, id: params.id });
-						console.log("TOGGLE -> ", result);
-						history.push("/streetView");
-					}}
-				>
-					back
-				</ValidationButton>
-				<ValidationButton onClick={handleType(Target.DOOR)}>
-					door
-				</ValidationButton>
-				<ValidationButton onClick={handleType(Target.RAMP)}>
-					ramp
-				</ValidationButton>
-				<ValidationButton onClick={handleType(Target.KNOB)}>
-					knob
-				</ValidationButton>
-				<ValidationButton onClick={handleType(Target.STAIRS)}>
-					stairs
-				</ValidationButton>
-				<ValidationButton onClick={() => setToggle(false)}>
-					cancel
-				</ValidationButton>
-				<ValidationButton
+					btn="#3f3d56"
 					onClick={async () => {
 						const result = await addLabeledArea({
 							id: params.id,
