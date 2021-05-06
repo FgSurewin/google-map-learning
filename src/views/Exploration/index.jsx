@@ -1,10 +1,10 @@
 import React from "react";
 import OriginalMap from "../../components/OriginalMap";
 import { generateMapOption, generateStreetOption } from "../StreetView/utils";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { HANDLE_MAP } from "../../redux/actionTypes";
-import { fetchRandomList } from "../../api/images";
+import { HANDLE_EMPTY, HANDLE_MAP } from "../../redux/actionTypes";
+import { fetchImagesByPano, fetchRandomList } from "../../api/images";
 import Navbar from "../../components/Navbar";
 import {
 	ExplorationContainer,
@@ -54,25 +54,62 @@ const Exploration = () => {
 	const history = useHistory();
 
 	// Redux
-	const { pano, position, images, progress } = useSelector(
-		(state) => state.map,
-		shallowEqual
+	const { pano, tempPano, position, images, progress } = useSelector(
+		(state) => state.map
 	);
+
+	// To solve image list problem
+	const imageList = pano === tempPano ? images : null;
+	console.log("PANO -> ", pano);
+	console.log("TEMP PANO -> ", tempPano);
+
 	const dispatch = useDispatch();
-	console.log("progress -> ", progress);
 	const _mount = React.useRef(pano);
+	const _first = React.useRef(false);
 
 	React.useEffect(() => {
 		async function fetchData() {
 			const { data } = await fetchRandomList();
 			dispatch({ type: HANDLE_MAP, payload: data.data });
+			console.log("USE-EFFECT");
 		}
 		if (!_mount.current) fetchData();
 	}, [dispatch]);
 
+	const handlePosition = async (mapInfo) => {
+		const { data } = await fetchImagesByPano(mapInfo.pano);
+		console.log("DATA -> ", data);
+		if (data.code === 0 && mapInfo.pano !== pano)
+			dispatch({ type: HANDLE_MAP, payload: data.data });
+		dispatch({
+			type: HANDLE_EMPTY,
+			payload: { pano: mapInfo.pano },
+		});
+
+		// if (data.code === 2000)
+		// 	dispatch({
+		// 		type: HANDLE_EMPTY,
+		// 		payload: { pano: mapInfo.pano },
+		// 	});
+		// else {
+		// 	if (mapInfo.pano !== pano)
+		// 		dispatch({ type: HANDLE_MAP, payload: data.data });
+		// }
+	};
+
+	// 真pano -> 会影响整个streetView
+	// tempPano
+	// 判断tempPano与真pano是否相等, 相等则给image, 不然给null
+
 	const onPositionChanged = (e, map) => {
 		locationInfo.current = e;
 		map.setCenter(locationInfo.current.position);
+		if (_first.current) {
+			console.log("POSITION: -> ", e);
+			handlePosition(e);
+		} else {
+			_first.current = true;
+		}
 	};
 
 	return (
@@ -96,8 +133,8 @@ const Exploration = () => {
 								value={parseInt(progress)}
 								variant="determinate"
 							/>
-							{images &&
-								images.map(({ _id, completed }, index) => (
+							{imageList &&
+								imageList.map(({ _id, completed }, index) => (
 									<ExplorationShowcase key={_id}>
 										<ShowcaseText finished={completed.toString()}>
 											Image - {index}
@@ -107,6 +144,7 @@ const Exploration = () => {
 											onClick={() => {
 												history.push(`/validation/${_id}`);
 											}}
+											disabled={completed}
 										>
 											{completed ? "completed" : "view"}
 										</ShowcaseButton>
@@ -117,6 +155,7 @@ const Exploration = () => {
 							onClick={async () => {
 								const { data } = await fetchRandomList();
 								dispatch({ type: HANDLE_MAP, payload: data.data });
+								_first.current = false;
 							}}
 						>
 							NEXT

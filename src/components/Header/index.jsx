@@ -15,6 +15,7 @@ import {
 import Background from "../../videos/background.mp4";
 import { useScroll } from "../../hooks/useScroll";
 import { HeaderData } from "./data";
+import { NavLink } from "react-router-dom";
 
 export default function Header() {
 	const primary = useScroll();
@@ -32,7 +33,11 @@ export default function Header() {
 					<HeaderSubtitle>{HeaderData.subtitle.one}</HeaderSubtitle>
 					<HeaderSubtitle>{HeaderData.subtitle.two}</HeaderSubtitle>
 				</HeaderSubtitleBox>
-				<HeaderButton>{HeaderData.button}</HeaderButton>
+				<HeaderButton>
+					<NavLink to="/streetView" style={{ color: "white" }}>
+						{HeaderData.button}
+					</NavLink>
+				</HeaderButton>
 			</HeaderContent>
 			<HeaderIcon src={HeaderData.icon} alt="scrollDown" />
 		</HeaderWrapper>

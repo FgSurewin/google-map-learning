@@ -11,6 +11,11 @@ export const fetchImage = (id) =>
 		method: "GET",
 		url: `/image/getOneById/${id}`,
 	});
+export const fetchImagesByPano = (id) =>
+	myService.request({
+		method: "GET",
+		url: `/image/getImagesByPano/${id}`,
+	});
 
 export const fetchToggle = (data) =>
 	myService.request({

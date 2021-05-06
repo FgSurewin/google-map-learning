@@ -9,12 +9,14 @@ import { useParams, useHistory } from "react-router-dom";
 import { addLabeledArea, fetchImage, fetchToggle } from "../../api/images";
 import { boxDecorator, boxReverser } from "./asset";
 import Navbar from "../../components/Navbar";
+import { useDispatch } from "react-redux";
 import {
 	ValidationButtonGroup,
 	ValidationWrapper,
 	ValidationButton,
 	ValidationGroup,
 } from "./style";
+import { HANDLE_COMPLETED } from "../../redux/actionTypes";
 
 // import { useQuery, gql } from "@apollo/client";
 
@@ -41,7 +43,7 @@ export default function Validation() {
 	}, [params]);
 
 	// Redux
-	// const { images } = useSelector((state) => state.map, shallowEqual);
+	const dispatch = useDispatch();
 
 	React.useEffect(() => {
 		async function loadFunction() {
@@ -173,6 +175,7 @@ export default function Validation() {
 							labelArea: boxReverser(box),
 						});
 						console.log("addLabeledArea -> ", result);
+						dispatch({ type: HANDLE_COMPLETED, payload: params.id });
 						await fetchToggle({ labeled: false, id: params.id });
 						history.push("/streetView");
 					}}
