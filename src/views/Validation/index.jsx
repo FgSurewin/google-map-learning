@@ -62,14 +62,14 @@ export default function Validation() {
 			// 	setURL(data.data.url);
 			// }
 			const { data } = await fetchImage(params.id);
-			console.log("image from DB-> ", data);
+			// console.log("image from DB-> ", data);
 			setBox(boxDecorator(data.data.labeled_area));
 			setURL(data.data.url);
 		}
 		loadFunction();
 		return async () => {
 			await fetchToggle({ labeled: false, id: params.id });
-			console.log("close pages");
+			// console.log("close pages");
 		};
 	}, [params]);
 
@@ -153,11 +153,11 @@ export default function Validation() {
 				<ValidationGroup>
 					<ValidationButton
 						onClick={async () => {
-							const result = await fetchToggle({
+							await fetchToggle({
 								labeled: false,
 								id: params.id,
 							});
-							console.log("TOGGLE -> ", result);
+							// console.log("TOGGLE -> ", result);
 							history.push("/streetView");
 						}}
 					>
@@ -170,11 +170,11 @@ export default function Validation() {
 				<ValidationButton
 					btn="#3f3d56"
 					onClick={async () => {
-						const result = await addLabeledArea({
+						await addLabeledArea({
 							id: params.id,
 							labelArea: boxReverser(box),
 						});
-						console.log("addLabeledArea -> ", result);
+						// console.log("addLabeledArea -> ", result);
 						dispatch({ type: HANDLE_COMPLETED, payload: params.id });
 						await fetchToggle({ labeled: false, id: params.id });
 						history.push("/streetView");
@@ -188,7 +188,7 @@ export default function Validation() {
 			) : (
 				<div
 					style={{
-						width: "800px",
+						width: "600px",
 						position: "relative",
 					}}
 				>
@@ -216,6 +216,7 @@ export default function Validation() {
 						alt="label"
 						style={{
 							width: "100%",
+							height: "600px",
 						}}
 					/>
 				</div>

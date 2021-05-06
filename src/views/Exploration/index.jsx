@@ -60,8 +60,6 @@ const Exploration = () => {
 
 	// To solve image list problem
 	const imageList = pano === tempPano ? images : null;
-	console.log("PANO -> ", pano);
-	console.log("TEMP PANO -> ", tempPano);
 
 	const dispatch = useDispatch();
 	const _mount = React.useRef(pano);
@@ -71,41 +69,24 @@ const Exploration = () => {
 		async function fetchData() {
 			const { data } = await fetchRandomList();
 			dispatch({ type: HANDLE_MAP, payload: data.data });
-			console.log("USE-EFFECT");
 		}
 		if (!_mount.current) fetchData();
 	}, [dispatch]);
 
 	const handlePosition = async (mapInfo) => {
 		const { data } = await fetchImagesByPano(mapInfo.pano);
-		console.log("DATA -> ", data);
 		if (data.code === 0 && mapInfo.pano !== pano)
 			dispatch({ type: HANDLE_MAP, payload: data.data });
 		dispatch({
 			type: HANDLE_EMPTY,
 			payload: { pano: mapInfo.pano },
 		});
-
-		// if (data.code === 2000)
-		// 	dispatch({
-		// 		type: HANDLE_EMPTY,
-		// 		payload: { pano: mapInfo.pano },
-		// 	});
-		// else {
-		// 	if (mapInfo.pano !== pano)
-		// 		dispatch({ type: HANDLE_MAP, payload: data.data });
-		// }
 	};
-
-	// 真pano -> 会影响整个streetView
-	// tempPano
-	// 判断tempPano与真pano是否相等, 相等则给image, 不然给null
 
 	const onPositionChanged = (e, map) => {
 		locationInfo.current = e;
 		map.setCenter(locationInfo.current.position);
 		if (_first.current) {
-			console.log("POSITION: -> ", e);
 			handlePosition(e);
 		} else {
 			_first.current = true;
