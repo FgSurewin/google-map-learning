@@ -166,7 +166,7 @@ export class ImageService {
 				});
 			} else {
 				res.json({
-					code: 4000,
+					code: 5000,
 					message: "Field name is invalid",
 				});
 			}

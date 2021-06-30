@@ -20,13 +20,13 @@ export default function LabelTool({ toggle, type, finish, clearClick }) {
 		clearClick();
 		console.log("TEST");
 		if (toggle && !drawing.current && !drawn.current) {
-			// console.log("Drawing -> ", xVal, ", ", yVal);
 			setStart({ x: xVal, y: yVal });
 			drawing.current = true;
 		} else if (toggle && drawing.current && !drawn.current) {
 			// console.log("Drawn -> ", xVal, ", ", yVal);
 			drawing.current = false;
 			drawn.current = false;
+			// Re-arrange label points as original ratio
 			const { newStart, newEnd } = rearrangePoints(start, end);
 			finish(newStart, newEnd, type);
 			clear();

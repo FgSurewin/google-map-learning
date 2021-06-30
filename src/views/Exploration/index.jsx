@@ -68,6 +68,7 @@ const Exploration = () => {
 	React.useEffect(() => {
 		async function fetchData() {
 			const { data } = await fetchRandomList();
+			console.log("FETCH: -> ", data);
 			dispatch({ type: HANDLE_MAP, payload: data.data });
 		}
 		if (!_mount.current) fetchData();

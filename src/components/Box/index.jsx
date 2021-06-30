@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.scss";
-import { RATIO } from "../../views/Validation/asset";
+import { RATIO, X_RATIO } from "../../views/Validation/asset";
 import { Target, getColor } from "./utils";
 
 export default function Box({
@@ -18,9 +18,9 @@ export default function Box({
 			className="Box"
 			style={{
 				position: "absolute",
-				left: RATIO * startPoint.x,
+				left: X_RATIO * startPoint.x,
 				top: RATIO * startPoint.y,
-				width: RATIO * (endPoint.x - startPoint.x),
+				width: X_RATIO * (endPoint.x - startPoint.x),
 				height: RATIO * (endPoint.y - startPoint.y),
 				border: `4px solid ${getColor(target)}`,
 				zIndex: target === Target.KNOB ? 10 : 5,

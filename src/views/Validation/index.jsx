@@ -17,6 +17,7 @@ import {
 	ValidationGroup,
 } from "./style";
 import { HANDLE_COMPLETED } from "../../redux/actionTypes";
+import { Modal } from "antd";
 
 // import { useQuery, gql } from "@apollo/client";
 
@@ -158,7 +159,17 @@ export default function Validation() {
 								id: params.id,
 							});
 							// console.log("TOGGLE -> ", result);
-							history.push("/streetView");
+							// history.push("/streetView");
+							// setIsModalVisible(true);
+							Modal.confirm({
+								title: "Warning Message",
+								content: "Do you want to leave without confirmation?",
+								cancelText: "Cancel",
+								onCancel() {},
+								onOk() {
+									history.push("/streetView");
+								},
+							});
 						}}
 					>
 						back
@@ -180,7 +191,7 @@ export default function Validation() {
 						history.push("/streetView");
 					}}
 				>
-					SUBMIT
+					CONFIRM
 				</ValidationButton>
 			</ValidationButtonGroup>
 			{box === null ? (
@@ -188,8 +199,9 @@ export default function Validation() {
 			) : (
 				<div
 					style={{
-						width: "600px",
+						width: "900px",
 						position: "relative",
+						marginTop: "50px",
 					}}
 				>
 					{box &&

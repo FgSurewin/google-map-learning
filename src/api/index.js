@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const myService = axios.create({
 	baseURL: "/api",
-	timeout: 5000,
 });
 
 myService.interceptors.request.use(

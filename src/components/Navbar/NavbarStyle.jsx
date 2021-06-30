@@ -71,6 +71,7 @@ export const NavbarList = styled.ul`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	margin-top: ${REM(16)};
 	${(props) => !props.isStatic && hide_for_mobile}
 `;
 

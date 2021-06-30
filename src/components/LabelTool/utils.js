@@ -1,4 +1,4 @@
-import { RATIO } from "../../views/Validation/asset";
+import { RATIO, X_RATIO } from "../../views/Validation/asset";
 import { getColor } from "../Box/utils";
 
 export function calculateStartPoint(start, end) {
@@ -47,9 +47,9 @@ export const rearrangePoints = (start, end) => {
 		y: 0,
 	};
 	const { x, y, width, height } = calculateStartPoint(start, end);
-	newStart.x = x / RATIO;
+	newStart.x = x / X_RATIO;
 	newStart.y = y / RATIO;
-	newEnd.x = (x + width) / RATIO;
+	newEnd.x = (x + width) / X_RATIO;
 	newEnd.y = (y + height) / RATIO;
 	return {
 		newStart,

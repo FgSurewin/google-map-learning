@@ -52,7 +52,7 @@ export default function Navbar({
 						</NavbarLink>
 					</NavbarItem>
 					<NavbarItem>
-						<NavbarLink size="circle" primary={primary} to="/streetView">
+						<NavbarLink size="circle" primary={primary} to="/signUp">
 							Sign In
 						</NavbarLink>
 					</NavbarItem>

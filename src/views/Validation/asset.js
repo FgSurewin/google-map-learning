@@ -6,6 +6,8 @@ export const URL =
 export const WIDTH = 3584;
 // export const RATIO = 800 / WIDTH;
 export const RATIO = 600;
+export const X_RATIO = 900;
+export const Y_RATIO = 600;
 
 export const targetReverser = (target) => {
 	const { DOOR, KNOB, RAMP, STAIRS } = Target;

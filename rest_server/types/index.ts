@@ -20,3 +20,11 @@ export interface ImageBody {
 	labelArea?: LabelInterface[];
 	field?: ImageField;
 }
+
+export interface UserBody {
+	nickname: string;
+	password: string;
+	email: string;
+	role: string;
+	institution: string;
+}

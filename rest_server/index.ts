@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import imageRoute from "./routes/image";
+import userRoute from "./routes/user";
 import mongoose from "mongoose";
 import cors from "cors";
 import { logger, loggerMiddleware } from "./config/logger";
@@ -19,6 +20,7 @@ import { config } from "./database";
 
 	// Initialize Routes
 	app.use("/api/image", imageRoute);
+	app.use("/api/user", userRoute);
 
 	// MongoDB Connection
 	try {
