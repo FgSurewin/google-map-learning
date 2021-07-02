@@ -1,13 +1,30 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { FormWrapper, LoginText, LoginContainer } from "./LoginStyle";
-import { NavLink } from "react-router-dom";
-// import { useScroll } from "../../hooks/useScroll";
+import { NavLink, useHistory } from "react-router-dom";
+import { testEmail } from "../../utils/Reg";
+import { login } from "../../api/user";
 
 export default function Login() {
-	const onFinish = (values) => {
-		console.log("Success:", values);
+	const [form] = Form.useForm();
+	const history = useHistory();
+
+	const onFinish = async (values) => {
+		const result = await login(values).catch(() => {
+			history.push("/home");
+		});
+		if (result.data.code === 0) {
+			message.success(result.data.message);
+			history.push("/home");
+		}
+	};
+	const checkEmail = (_, value) => {
+		if (value === "") return Promise.resolve();
+		if (testEmail(value)) {
+			return Promise.resolve();
+		}
+		return Promise.reject(new Error("Please input a valid email!"));
 	};
 
 	return (
@@ -23,12 +40,18 @@ export default function Login() {
 						name="basic"
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 8 }}
+						form={form}
 						//initialValues={{ remember: true }}
 						onFinish={onFinish}>
 						<Form.Item
 							label="Email"
 							name="email"
-							rules={[{ required: true, message: "Please input your email!" }]}>
+							rules={[
+								{
+									validator: checkEmail,
+								},
+								{ required: true, message: "Please input your email!" },
+							]}>
 							<Input />
 						</Form.Item>
 						<Form.Item

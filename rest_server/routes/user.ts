@@ -6,5 +6,6 @@ const userController = new UserController();
 // route.get("/test", imageController.test);
 
 route.post("/addUser", userController.addUser);
+route.post("/login", userController.login);
 
 export default route;

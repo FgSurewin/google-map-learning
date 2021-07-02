@@ -1,18 +1,22 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import { Form, Input, Button, Select } from "antd";
+import { Form, Input, Button, Select, message } from "antd";
 import { FormWrapper, SignUpContainer, SignUpText } from "./SignUpStyle";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { testEmail } from "../../utils/Reg";
 import { signUp } from "../../api/user";
 // import { useScroll } from "../../hooks/useScroll";
 const { Option } = Select;
 
 export default function SignUp() {
+	const [form] = Form.useForm();
+	const history = useHistory();
 	const onFinish = async (values) => {
-		console.log("Success:", values);
 		const result = await signUp(values);
-		console.log("result -> ", result);
+		if (result.data.code === 0) {
+			message.success(result.data.message);
+			history.push("/login");
+		} else form.resetFields();
 	};
 	const checkEmail = (_, value) => {
 		if (value === "") return Promise.resolve();
@@ -33,6 +37,7 @@ export default function SignUp() {
 					</SignUpText>
 					<Form
 						name="basic"
+						form={form}
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 8 }}
 						//initialValues={{ remember: true }}

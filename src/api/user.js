@@ -6,3 +6,9 @@ export const signUp = (data) =>
 		url: `/user/addUser`,
 		data,
 	});
+export const login = (data) =>
+	myService.request({
+		method: "POST",
+		url: `/user/login`,
+		data,
+	});

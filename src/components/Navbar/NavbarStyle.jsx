@@ -162,4 +162,8 @@ export const MobileLink = styled(NavLink)`
 	color: ${(props) =>
 		props.primary === "white" ? props.theme.primaryFont : "white"};
 	font-size: ${REM(28)};
+	&:hover {
+		color: ${(props) =>
+			props.primary === "white" ? props.theme.primaryFont : "white"};
+	}
 `;

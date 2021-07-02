@@ -1,3 +1,4 @@
 import { combineReducers } from "redux";
 import map from "./map";
-export default combineReducers({ map });
+import user from "./user";
+export default combineReducers({ map, user });

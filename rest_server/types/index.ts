@@ -28,3 +28,8 @@ export interface UserBody {
 	role: string;
 	institution: string;
 }
+
+export interface LoginBody {
+	email: string;
+	password: string;
+}

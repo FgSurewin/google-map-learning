@@ -36,8 +36,7 @@ export default function Navbar({
 				{!isStatic && (
 					<NavbarHamburger
 						primary={primary}
-						onClick={() => setShowMenu(!showMenu)}
-					>
+						onClick={() => setShowMenu(!showMenu)}>
 						{showMenu ? (
 							<GoX style={{ fontSize: REM(36) }} />
 						) : (
@@ -52,7 +51,7 @@ export default function Navbar({
 						</NavbarLink>
 					</NavbarItem>
 					<NavbarItem>
-						<NavbarLink size="circle" primary={primary} to="/signUp">
+						<NavbarLink size="circle" primary={primary} to="/login">
 							Sign In
 						</NavbarLink>
 					</NavbarItem>
@@ -66,7 +65,7 @@ export default function Navbar({
 						</MobileLink>
 					</MobileItem>
 					<MobileItem>
-						<MobileLink primary={primary} to="/streetView">
+						<MobileLink primary={primary} to="/login">
 							Sign In
 						</MobileLink>
 					</MobileItem>

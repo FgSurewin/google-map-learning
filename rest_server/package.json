@@ -5,7 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "rm -rf build/ && tsc",
-		"dev": "nodemon -x ts-node ./index.ts"
+		"dev": "nodemon -x ts-node ./index.ts",
+		"email": "nodemon -x ts-node ./email.ts"
 	},
 	"keywords": [],
 	"author": "",
