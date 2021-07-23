@@ -16,12 +16,12 @@ function App() {
 				<ProtectedRoute
 					component={Exploration}
 					path="/streetView"
-					isAuth={false}
+					isAuth={true}
 				/>
 				<ProtectedRoute
 					component={Validation}
 					path="/validation/:id"
-					isAuth={false}
+					isAuth={true}
 				/>
 				<Route component={Home} path="/home" />
 				<Route component={SignUp} path="/signUp" />
